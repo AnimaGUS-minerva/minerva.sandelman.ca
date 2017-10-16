@@ -1,3 +1,11 @@
+GIT
+  remote: git@github.com:AnimaGUS-minerva/time-machine.git
+  revision: 21acc49694dfec938d09cf810f8922c28d9e9c99
+  specs:
+    jekyll-theme-time-machine (0.1.0)
+      jekyll (~> 3.5)
+      jekyll-seo-tag (~> 2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -23,9 +31,6 @@ GEM
       sass (~> 3.4)
     jekyll-seo-tag (2.3.0)
       jekyll (~> 3.3)
-    jekyll-theme-time-machine (0.1.0)
-      jekyll (~> 3.5)
-      jekyll-seo-tag (~> 2.0)
     jekyll-watch (1.5.0)
       listen (~> 3.0, < 3.1)
     kramdown (1.15.0)
@@ -54,7 +59,7 @@ PLATFORMS
 DEPENDENCIES
   jekyll (~> 3.6.0)
   jekyll-feed (~> 0.6)
-  jekyll-theme-time-machine
+  jekyll-theme-time-machine!
   tzinfo-data
 
 BUNDLED WITH

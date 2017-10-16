@@ -13,4 +13,4 @@ Additional components are planned to implement a reference
 Autonomic Control Plane (ACP) including the IPsec and RPL routing protocols
 required for creation of the ACP.
 
-!(statue of Minerva)[images/statua_della_minerva_a_pavia.jpg]
+![statue of Minerva](images/just-minerva-statue.jpg){:width="200px"}
