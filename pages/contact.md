@@ -7,9 +7,6 @@ teaser: ""
 permalink: "/contact/"
 ---
 
-- [Wufoo][1]
-- [Google Forms][2]
+Please email to <a href="mailto:minerva@sandelman.ca">minerva at sandelman.ca</a>
 
 
- [1]: http://www.wufoo.com/
- [2]: https://www.google.com/intl/de_de/forms/about/
