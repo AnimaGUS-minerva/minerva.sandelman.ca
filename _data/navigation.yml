@@ -2,12 +2,25 @@
 #   Navigation to the left › side: left
 #
 - title: Start
+  icon: '/images/minerva-icon-48.png'
   url: "/"
+  side: left
+
+- title: "Standards"
+  url: "/standards"
+  side: left
+
+- title: "Components"
+  url: "/components"
   side: left
 
 #
 #   Navigation to the right › side: right
 #
+- title: "Community"
+  url: "/community/"
+  side: right
+
 - title: "Info"
   url: "/info/"
   side: right
