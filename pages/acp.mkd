@@ -1,0 +1,10 @@
+---
+# -*- markdown -*-
+layout: page
+header: no
+title: "Autonomic Control Plane"
+subheadline: "ACP explained"
+permalink: /acp/
+---
+
+This outlines the detailed process described in the [Autonomic Control Plane](https://tools.ietf.org/html/draft-ietf-anima-autonomic-control-plane-12) specification.

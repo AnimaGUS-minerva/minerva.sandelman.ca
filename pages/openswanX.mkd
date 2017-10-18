@@ -1,0 +1,15 @@
+---
+# -*- markdown -*-
+layout: page
+header: no
+title: "Openswan IPsec client"
+subheadline: "OpenswanX is the embeddable version of Openswan"
+permalink: /openswanX/
+---
+
+[Openswan](https://www.openswan.org)
+
+It is written in C, and does not yet implement the needed VTI functionality.
+
+
+

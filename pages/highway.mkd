@@ -1,0 +1,31 @@
+---
+# -*- markdown -*-
+layout: page
+header: no
+title: "Highway MASA"
+permalink: /highway/
+---
+
+The Highway MASA is a ruby-on-rails web application.
+
+It provides operator access to create IDevID certificates, storing the resulting
+public parts into a database.  A manufacturer would run this part, and then
+install the public and private key pairs into a device as part of the
+assembly line, perhaps via a JTAG interface that initializes the firmware
+content, or perhaps as the last step of a quality assurance initial boot.
+
+The release 0.50 of the Highway MASA supports PKCS7 signed voucher requests,
+and generates PKCS7 signed vouchers.  It does no supply chain management, and
+likely has some logic missing to do all of the required nonce processing.
+
+This release does not provide the audit log functionality.
+
+There are few negative (challenge, or attack) test cases.
+
+The above limitations are not a result of planning or intent, but just the
+result of getting an initial set of green tests done.
+
+As part of the Minerva project two public MASA have been set up.
+
+[Highway is on github.](https://github.com/AnimaGUS-minerva/highway)
+

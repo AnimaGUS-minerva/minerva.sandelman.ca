@@ -1,0 +1,15 @@
+---
+# -*- markdown -*-
+layout: page
+header: no
+title: "Pick pledge client"
+subheadline: "Ripple is a nice song"
+permalink: /pick/
+---
+
+Pick is part of the [unstrung](http://unstrung.sandelman.ca/) framework.
+
+It is written in C++, but the current code implements an incompatible older
+specification.
+
+

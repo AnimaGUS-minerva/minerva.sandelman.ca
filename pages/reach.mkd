@@ -1,0 +1,29 @@
+---
+# -*- markdown -*-
+layout: page
+header: no
+title: "Reach pledge simulator"
+permalink: /reach/
+---
+
+The Reach Pledge is a ruby application that uses part of the rails framework,
+but acts as an https client only.
+
+Reach provides a CLI interface that can be run in a shell to simulate a
+pledge activity.  It does not look for the ACP-provided proxy (but it could).
+
+    rake reach:send_voucher_request IDEVID=pledge JRC=https://fountain.sandelman.ca
+
+The address of the JRC must be provided as it is not determinable otherwise.
+The provided IDEVID name causes a key pair to be searched for in
+
+    db/certs/${IDEVID}_primev1.crt
+    db/private/${IDEVID}_primev1.key
+
+An HTTPS connection to the provided JRC is made.
+
+The release 0.50 of the Reach pledge simulator only supports PKCS7 signed
+raku voucher requests.  This release does not (yet) attempt to do enrollment.
+
+[Reach is on github.](https://github.com/AnimaGUS-minerva/reach)
+
