@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rsync -avr --delete-after --delete-excluded   _site/ minerva@minerva.sandelman.ca:
