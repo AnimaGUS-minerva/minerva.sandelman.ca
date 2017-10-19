@@ -1,3 +1,5 @@
 #!/bin/sh
 
-rsync -avr --delete-after --delete-excluded   _site/ minerva@minerva.sandelman.ca:
+export LC_ALL=en_CA.UTF-8
+rvm 2.4.1 do jekyll build
+rsync -avr --delete-after --delete-excluded   _site/ minerva@minerva.sandelman.ca:html
