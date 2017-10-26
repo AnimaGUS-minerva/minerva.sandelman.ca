@@ -23,7 +23,7 @@ Registrar Image.
 It was suggested in the early days of ANIMA by Michael Richardson that the
 imprinting process was rather like the
 [Imprinting process](https://en.wikipedia.org/wiki/Imprinting_(psychology))
-process first described by biologiest Konrad Lorenz.  In the story told in
+process first described by biologist Konrad Lorenz.  In the story told in
 many high school biology classes, ducklings would imprint on whatever looked
 like a mother at a critical period in their development.
 
