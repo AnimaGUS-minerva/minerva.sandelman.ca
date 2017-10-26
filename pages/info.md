@@ -1,4 +1,4 @@
---- 
+---
 # -*- markdown -*-
 layout: page
 header: no
@@ -10,19 +10,19 @@ permalink: /info/
 ### What's with the name Minerva?
 
 Minerva is the Roman goddess of wisdom and strategic warfare.
-[Wikipedia](https://en.m.wikipedia.org/wiki/Minerva) and 
-[Greek God and Goddesses](https://greekgodsandgoddesses.net/goddesses/minerva/) 
-also list Minerva has being the patron of arts, trade, medicine, poetry, handicrafts and strategy. 
+[Wikipedia](https://en.m.wikipedia.org/wiki/Minerva) and
+[Greek God and Goddesses](https://greekgodsandgoddesses.net/goddesses/minerva/)
+also list Minerva has being the patron of arts, trade, medicine, poetry, handicrafts and strategy.
 
-Minerva was in charge of so many things that she was the "goddess of a thousand works". 
+Minerva was in charge of so many things that she was the "goddess of a thousand works".
 This seems like an appropriate goddess for the Internet of Things!
 
-Minerva is usually depicted with a shield and spear, but the spear is often noted to not be in a 
+Minerva is usually depicted with a shield and spear, but the spear is often noted to not be in a
 position to attack, but rather defending, or offering sympathy to those defeated.
 
-Minerva is the [Roman name](https://greekgodsandgoddesses.net/greek-vs-roman-gods/) for the 
+Minerva is the [Roman name](https://greekgodsandgoddesses.net/greek-vs-roman-gods/) for the
 goddess Athena, but some reading suggests that they have slightly different personalities.
-Besides, Project Athena is a well known MIT desktop project which spawned many things still in use 
+Besides, Project Athena is a well known MIT desktop project which spawned many things still in use
 today (Kerberos being one of them).
 
 ### Project History
