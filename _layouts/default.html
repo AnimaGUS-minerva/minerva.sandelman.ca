@@ -20,5 +20,8 @@ layout: compress
 	{% endunless %}
 
 	{% include _footer_scripts.html %}
+        {% if jekyll.environment == 'production' %}
+        {% include analytics.html %}.
+        {% endif %}
 </body>
 </html>
