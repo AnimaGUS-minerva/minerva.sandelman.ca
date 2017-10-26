@@ -7,12 +7,12 @@ subheadline: "Buy some jokes!"
 title: "Weasley Joke shop setup"
 teaser: "U-No-Poo would hate the security"
 categories:
-  - highway
+  - metasite
 tags:
+  - metasite
   - masa
   - highway
   - reach
-
 #
 # Styling
 #
