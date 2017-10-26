@@ -45,4 +45,4 @@ products, but about the technology infrastructure to support them.
 
 Please visit the github pages at: [https://github.com/ANIMAgus-minerva/](https://github.com/ANIMAgus-minerva/) to contribute.
 
-There is a mailing list, please see {{community}}.
+There is a mailing list, please see [community](/community).
