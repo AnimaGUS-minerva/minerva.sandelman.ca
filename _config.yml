@@ -22,7 +22,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 author: mcr
 
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "//minerva.sandelman.ca" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://minerva.sandelman.ca" # the base hostname & protocol for your site, e.g. http://example.com
 
 # not sure if this works
 improve_content: https://github.com/AnimaGUS-minerva/edit/gh-pages
