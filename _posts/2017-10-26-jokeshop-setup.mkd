@@ -1,0 +1,28 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Buy some jokes!"
+title: "Weasley Joke shop setup"
+teaser: "U-No-Poo would hate the security"
+categories:
+  - highway
+tags:
+  - masa
+  - highway
+  - reach
+
+#
+# Styling
+#
+---
+
+Two instances of the Highway MASA have been setup.  They are named
+after two shops from the wizarding world of Harry Potter.  See
+[Jokeshop](/jokeshop) for an explanation of them.
+
+Expect some changes as the created MASA signing keys are both names
+localhost, when they should really be named after the Jokeshop.
+
+
