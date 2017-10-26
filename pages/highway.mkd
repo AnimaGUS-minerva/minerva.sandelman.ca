@@ -25,7 +25,7 @@ There are few negative (challenge, or attack) test cases.
 The above limitations are not a result of planning or intent, but just the
 result of getting an initial set of green tests done.
 
-As part of the Minerva project two public MASA have been set up.
+As part of the Minerva project [two public MASA](/jokeshop) have been set up.
 
 [Highway is on github.](https://github.com/AnimaGUS-minerva/highway)
 
