@@ -1,0 +1,36 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Quack!"
+title: "What's with the ducks?"
+teaser: "H No, no, 'e's uh,...he's resting!"
+categories:
+  - ducks
+tags:
+  - pledge
+  - ducks
+#
+# Styling
+#
+---
+
+You might wonder what the ducks are doing in the manufacturer, and
+why a duck and ducklings are wandering up to the customs agent in the
+Registrar Image.
+
+It was suggested in the early days of ANIMA by Michael Richardson that the
+imprinting process was rather like the
+[Imprinting process](https://en.wikipedia.org/wiki/Imprinting_(psychology))
+process first described by biologiest Konrad Lorenz.  In the story told in
+many high school biology classes, ducklings would imprint on whatever looked
+like a mother at a critical period in their development.
+
+It turns out that more famous people (Stajano and Anderson) had previous
+suggested exactly that in their 1999 paper, [Resurrecting Duckling: security for ad-hoc wireless networks](https://www.cl.cam.ac.uk/~fms27/papers/1999-StajanoAnd-duckling.pdf).
+
+Thus ducklings.
+
+
+
