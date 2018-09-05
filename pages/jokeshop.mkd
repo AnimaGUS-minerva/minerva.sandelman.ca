@@ -70,18 +70,6 @@ The script bin/pkcs2json can be used to decode the result to JSON:
     "nonce":"Dss99sBr3pNMOACe-LYY7w",
     "pinned-domain-cert":"MII...YRc3o="}}
 
-because I did not copy in the correct masa key, and the key was not included
-in the PKCS7 object:
-
-    wget -O db/cert/masa_secp384r1.crt https://honeydukes.sandelman.ca/vendor_secp384r1.crt
-
-Clearly, the naming of the files needs to changed. Let's try again for fun:
-
-    obiwan-[projects/pandora/reach](2.4.1) mcr 10306 %rake reach:send_voucher_request IDEVID=00-D0-E5-02-00-0A JRC=https://fountain-test.sandelman.ca/
-    Voucher connects to /DC=ca/DC=sandelman/CN=localhost
-    vs:   /DC=ca/DC=sandelman/CN=localhost
-    Voucher authenticates this connection!
-
 At this point the Fountain JRC implementation does not do auditlog
 examination, and the next step (enrollment) is not implemented yet either.
 
