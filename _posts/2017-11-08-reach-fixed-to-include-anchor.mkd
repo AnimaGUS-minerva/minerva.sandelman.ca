@@ -1,0 +1,32 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Anchors away!"
+title: "Reach changed to include MASA anchor"
+teaser: "Prof. Mcgonagall can turn into a cat!"
+categories:
+  - metasite
+tags:
+  - metasite
+#
+# Styling
+#
+---
+
+The reach pledge simulator now accepts a new argument PRODUCTID.
+
+This should point to a directory in which the device.crt (IDevID),
+the key.pem (private key).  In addition, it should include the vendor’s root
+CA key (filename “vendor.crt”) in order to validate the voucher.
+
+The highway MASA product creator now includes all the right components
+into the zip file provided, so there is much less chance of operator
+error when running a test case.  It’s as easy as:
+
+    wget https://honeydukes.sandelman.ca/product_00-D0-E5-02-00-0A.zip
+    unzip product_00-D0-E5-02-00-0A.zip
+    rake reach:send_voucher_request PRODUCTID=00-D0-E5-02-00-0A JRC=https://fountain-test.sandelman.ca/
+
+See [jokeshop](/jokeshop) description for an updated set of instructions.
