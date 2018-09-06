@@ -7,9 +7,10 @@ subheadline: "Anchors away!"
 title: "Reach changed to include MASA anchor"
 teaser: "Prof. Mcgonagall can turn into a cat!"
 categories:
-  - metasite
+  - reach
 tags:
-  - metasite
+  - reach
+  - pledge
 #
 # Styling
 #
