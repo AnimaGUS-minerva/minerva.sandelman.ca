@@ -1,0 +1,66 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Testing with containers"
+title: "Minerva Highway MASA and Fountain JRC in LXD containers"
+teaser: "ANIMA in a virtual box"
+categories:
+  - containers
+tags:
+  - containers
+  - anima
+  -
+#
+# Styling
+#
+---
+
+Start with your Generic Ubuntu machine.  This demo uses an Amazon EC2
+instance running 18.04 (Bionic).  Typically, this will be used with on
+laptop or desktop development system where embedded system based pledges
+will be connected.
+
+    ubuntu@ip-172-30-0-190:~$ lxd init
+    Would you like to use LXD clustering? (yes/no) [default=no]:
+    Do you want to configure a new storage pool? (yes/no) [default=yes]:
+    Name of the new storage pool [default=default]:
+    Name of the storage backend to use (btrfs, dir, lvm) [default=btrfs]: dir
+    Would you like to connect to a MAAS server? (yes/no) [default=no]:
+    Would you like to create a new local network bridge? (yes/no) [default=yes]:
+    What should the new bridge be called? [default=lxdbr0]:
+    What IPv4 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]:
+    What IPv6 address should be used? (CIDR subnet notation, “auto” or “none”) [default=auto]: auto
+    Would you like LXD to be available over the network? (yes/no) [default=no]:
+    Would you like stale cached images to be updated automatically? (yes/no) [default=yes]
+    Would you like a YAML "lxd init" preseed to be printed? (yes/no) [default=no]:
+
+The images are stored at:
+    https://minerva.sandelman.ca/qcow/
+
+Unfortunately, lxc image improt does not seem want to want to import in a
+single step from https resources. so it is necessary to download with wget
+first:
+
+    wget https://minerva.sandelman.ca/qcow/509228349075d52dfd67a6b828b6a5d513e6752fa27cc1f28b87a13898899b31.tar.gz
+    lxc image import 509228349075d52dfd67a6b828b6a5d513e6752fa27cc1f28b87a13898899b31.tar.gz \
+        --alias highway
+
+    wget https://minerva.sandelman.ca/qcow/2889fadee648fc9cb940bfc49b6de634ff6a09a5860717575518b81061232851.tar.gz
+    lxc image import 2889fadee648fc9cb940bfc49b6de634ff6a09a5860717575518b81061232851.tar.gz \
+        --alias fountain
+
+    ubuntu@ip-172-30-0-190:~$ lxc image list
+    +----------+--------------+--------+------------------------------------+--------+----------+------------------------------+
+    |  ALIAS   | FINGERPRINT  | PUBLIC |            DESCRIPTION             |  ARCH  |   SIZE   |         UPLOAD DATE          |
+    +----------+--------------+--------+------------------------------------+--------+----------+------------------------------+
+    | fountain | 509228349075 | no     | Ubuntu 18.04 LTS server (20181003) | x86_64 | 648.93MB | Oct 22, 2018 at 2:54am (UTC) |
+    +----------+--------------+--------+------------------------------------+--------+----------+------------------------------+
+    ubuntu@ip-172-30-0-190:~$ lxc launch fountain fountain0
+    Creating the container
+
+    ubuntu@ip-172-30-0-190:~$ lxc profile copy default lanprofile
+    ubuntu@ip-172-30-0-190:~$ lxc profile device set lanprofile eth0 nictype macvlan
+    ubuntu@ip-172-30-0-190:~$ lxc profile device set lanprofile eth0 parent eth0
+    ubuntu@ip-172-30-0-190:~$ lxc launch -p lanprofile fountain fountain0

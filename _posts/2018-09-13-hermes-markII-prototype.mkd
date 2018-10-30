@@ -1,0 +1,48 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "incremental, secure serial console management"
+title: "Hermes connect prototype Mark II"
+teaser: "ANIMA in a blue box"
+categories:
+  - hermes
+tags:
+  - hermes
+  - anima
+  -
+#
+# Styling
+#
+---
+
+As part of developing a reference design of the ANIMA protocols, and
+validating the design, a platform was developed to run ANIMA.
+
+The mark I case contains an Orange PI Zero, plus two additional ethernet
+interfaces connected via USB.  With three network interfaces interesting
+ACP topologies can be built and tested:
+
+![Hermes mark I prototype](/images/markI.jpg)
+
+The mark II case adds a serial port to the design making it capable of
+doing Out-Of-Band management of router devices.  This is still a prototype,
+the plan is to spin a board and produce a slightly smaller case:
+
+![Hermes mark II prototype](/images/bluecase-cisco-cable-labelled.png)
+
+A target design would be smaller, and would reduce heat dissipation.
+An additional goal is to include one or more TTL outputs that could be
+interfaced to something like the [power-switch Tail](https://www.sparkfun.com/products/retired/10747)
+
+The devices are currently powered by USB, and do not require as much power
+as typical RPI designs.  They are easily powered from available USB ports,
+but if a management goal is to be able to power cycle systems, then causing
+the management system to go off as well would be bad.
+
+A stretch goal is therefore to be able to draw power from industry standard
+PoE, while also passing PoE power *downstream* to the next Hermes device
+in the daisy chain.  That goal is ambitious.
+
+
