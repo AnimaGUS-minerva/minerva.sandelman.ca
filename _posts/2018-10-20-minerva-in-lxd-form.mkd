@@ -64,3 +64,51 @@ first:
     ubuntu@ip-172-30-0-190:~$ lxc profile device set lanprofile eth0 nictype macvlan
     ubuntu@ip-172-30-0-190:~$ lxc profile device set lanprofile eth0 parent eth0
     ubuntu@ip-172-30-0-190:~$ lxc launch -p lanprofile fountain fountain0
+
+    ubuntu@ip-172-30-0-190:~$ lxc launch -p lanprofile highway highway0
+
+At this point you will have two LXD containers one called fountain0, and one
+called highway0.  Start with the highway0 container.
+
+    lxc exec highway0 -- /bin/bash
+    root@florean:~#
+
+The instance is called florean after "florean.sandelman.ca".  You should
+adjust the hostname and the network settings by editing the files:
+
+    root@florean:~# vi /etc/hostname /etc/network/interfaces
+
+Edit to suit, restart container or use ifdown/ifup to change settings.
+The MASA will need a name that will be put into certificates that is
+reachable from without your test network.  This can be hacked on the
+Registrar using /etc/hosts, but better is to get your IT department to
+allocate a name and put it into (internal) DNS.
+
+Once you have a network configuration that you like and which is accessible
+on your network by name to your registrar instances, you may wish to enable
+ssh within the container.  This is not required, you can always enter the
+container using bash (as root), or to go directly to the MASA (highway) user:
+
+    % lxc exec highway -- su highway
+    highway@florean:/root$
+
+To start ssh, you need to first install your ssh keys:
+
+    % lxc exec highway -- su highway
+    highway@florean:/root$ vi ~/.ssh/authorized_keys
+
+You may remove the ssh keys from mcr@ if you do not need/want remote support.
+
+    % lxc exec highway -- /bin/bash  
+    root@florean:~# service ssh start
+
+The rest of this guide assumes you have logged as the highway user either
+via lxc exec, or via ssh.  
+
+The above instructions applies equally to the fountain container.
+The next two blog posts deal with configuring the Minerva MASA (highway), and
+the Minerva Registrar (highway).
+
+
+
+
