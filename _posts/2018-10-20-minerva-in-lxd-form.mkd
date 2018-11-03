@@ -107,7 +107,7 @@ via lxc exec, or via ssh.
 
 The above instructions applies equally to the fountain container.
 
-For details on configuring the MASA, see [Highway Configuration](/highway/configuraton)
+For details on configuring the MASA, see [Highway Configuration](/highway/configuration)
 
 
 

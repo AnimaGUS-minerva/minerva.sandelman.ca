@@ -29,3 +29,5 @@ As part of the Minerva project [two public MASA](/jokeshop) have been set up.
 
 [Highway is on github.](https://github.com/AnimaGUS-minerva/highway)
 
+For details on configuring a MASA, see [Highway Configuration](/highway/configuration)
+
