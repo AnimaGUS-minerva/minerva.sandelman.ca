@@ -99,15 +99,16 @@ To start ssh, you need to first install your ssh keys:
 
 You may remove the ssh keys from mcr@ if you do not need/want remote support.
 
-    % lxc exec highway -- /bin/bash  
+    % lxc exec highway -- /bin/bash
     root@florean:~# service ssh start
 
 The rest of this guide assumes you have logged as the highway user either
-via lxc exec, or via ssh.  
+via lxc exec, or via ssh.
 
 The above instructions applies equally to the fountain container.
-The next two blog posts deal with configuring the Minerva MASA (highway), and
-the Minerva Registrar (highway).
+
+For details on configuring the MASA, see [Highway Configuration](/highway/configuraton)
+
 
 
 

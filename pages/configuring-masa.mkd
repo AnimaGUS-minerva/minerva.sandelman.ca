@@ -1,17 +1,11 @@
 ---
 layout: page
-#
+# -*- markdown -*-
 # Content
 #
-subheadline: "Configuring Highway MASA"
+header: no
 title: "Minerva Highway MASA configuration"
-teaser: "ANIMA in a virtual box"
-categories:
-  - containers
-tags:
-  - containers
-  - anima
-  -
+permalink: /highway/configuration/
 #
 # Styling
 #
