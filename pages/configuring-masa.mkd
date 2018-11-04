@@ -286,6 +286,48 @@ This is option is not useful at this time, but is still in the list.
 
 
 
+Running Highway MASA
+--------------------
+
+To start the MASA server, once it is configured:
+
+    lxc exec highway -- su highway
+
+    bin/server -D &
+
+The -D will put a few debug message in the foreground, but the bulk of the
+debug will be in a lot file.
+
+    tail -f shared/log/production.log &
+
+will show the entire log file.  This MASA server does not start automatically
+when the container starts, although this can be configured.
+
+A production load MASA server would use the passenger plugin to Apache to
+scale better.  A high-capacity MASA server would make use of a three-tier
+web framework (presentation-tier/load-balancer, application server-tier,
+and database-tier) to do typical web scaling.  Setting up such a system is
+not in the scope for this document, please contact Sandelman Software Works
+for help setting such an environment up.
+
+To test if the MASA is answering correctly, from another machine do:
+
+    fountain@eeylops:~/fountain/current$ curl -k https://florean.sandelman.ca/version
+    highway:
+    Version: 0.9
+    Revision: devel
+
+One can also visit the /status and /status.json URLS:
+
+    $ curl -k https://florean.sandelman.ca/status
+    <!DOCTYPE html>
+    ....
+
+    $ curl -k https://florean.sandelman.ca/status.json; echo
+    {"Devices":6,"Inventory":6,"Owners":0,"Vouchers":0,"Requests":0}
+
+
+
 
 
 
