@@ -1,0 +1,40 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Testing with containers"
+title: "Minerva Highway MASA and Fountain JRC in LXD containers: v2"
+teaser: "ANIMA in a virtual box"
+categories:
+  - containers
+tags:
+  - containers
+  - anima
+  -
+#
+# Styling
+#
+---
+
+This is an update to [Minerva in LXD form](/containers/2018/10/20/minerva-in-lxd-form).
+
+The new images are at:
+
+    wget https://minerva.sandelman.ca/qcow/7df6fccf01a3d357911238ab421a2db80ca9839de4e43ac145a15e4683a8cf13.tar.gz
+    lxc image import 7df6fccf01a3d357911238ab421a2db80ca9839de4e43ac145a15e4683a8cf13.tar.gz
+        --alias fountain
+
+    wget https://minerva.sandelman.ca/qcow/cacf07b8d06bcae406c3d802710b41c5849de7c032790516c511576cde9d9799.tar.gz
+    lxc image import cacf07b8d06bcae406c3d802710b41c5849de7c032790516c511576cde9d9799.tar.gz\
+        --alias highway
+
+For details on configuring the MASA, see [Highway Configuration](/highway/configuration)
+
+For details on configuring the JRC, see [Fountain Configuration](/fountain/configuration)
+
+
+
+
+
+

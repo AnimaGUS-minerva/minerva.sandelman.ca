@@ -327,6 +327,12 @@ One can also visit the /status and /status.json URLS:
     {"Devices":6,"Inventory":6,"Owners":0,"Vouchers":0,"Requests":0}
 
 
+One can combine the instructions to start:
+
+    lxc exec highway -- su highway -c /home/highway/bin/server
+
+
+
 
 
 

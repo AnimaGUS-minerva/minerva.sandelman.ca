@@ -27,3 +27,6 @@ There are few negative (challenge, or attack) test cases.
 As part of the Minerva project two public JRCs have been set up.
 
 [Fountain is on github](https://github.com/AnimaGUS-minerva/fountain)
+
+For details on configuring the JRC, see [Fountain Configuration](/fountain/configuration)
+

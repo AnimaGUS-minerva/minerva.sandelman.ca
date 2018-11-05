@@ -1,0 +1,146 @@
+---
+layout: page
+# -*- markdown -*-
+# Content
+#
+header: no
+title: "Minerva Fountain Join Registrar/Coordinator (JRC) configuration"
+permalink: /fountain/configuration/
+#
+# Styling
+#
+---
+
+This assumes you are running the Fountain JRC in a container, but if you are
+running it as a full VM, then you will login via ssh.
+
+Login:
+
+    ssh fountain@eeylops
+
+or:
+
+    lxc exec fountain -- su fountain
+
+    cd fountain/current
+
+List of tasks:
+
+    rake -T | grep fountain
+
+When running rake comments, you may see an annoying warning:
+
+    ...cow_proxy-0.2.0/lib/cow_proxy.rb:131: warning: constant ::Fixnum is deprecated
+
+These are benign, although annoying.
+
+
+rake fountain:s0_setup_jrc
+==========================
+summary: Do initial setup of sytem variables
+
+This should be run once after installation.  It is interactive.
+It first prints out the list of the current variables, and then will ask a
+series of questions and store the result into a database table devoted to
+configuration information.  Hitting enter will accept the previous value.
+
+    fountain@fountain1:~/fountain/current$ rake fountain:s0_setup_jrc
+    Set initial serial number(default 0): 2356
+    Hostname for this instance(default ): gambol.sandelman.ca
+    serialnumber: 2356
+    hostname:  gambol.sandelman.ca
+
+The first question is what the hostname for this instance will be.
+The hostname will be placed into the generated certificate for HTTPS
+and COAPS connections.  Whether or not this is critical depends upon
+whether the pledge libraries validate the name.
+
+The serial number should be a random number. It is used for generating
+a certificate with the above name.  It will be randomized in a future
+version.  It is also used during simple enrollment, but as that feature
+is presently broken, once simpleenrollment works, it will also be
+unnecessary.
+
+rake fountain:s1_registrar_ca
+=============================
+
+This method should be run once (after h0) to generate a self-signed
+certificate to be the domain owner's Certificate Authority.
+This certificate will be stored at db/cert.
+
+    fountain@fountain1:~/fountain/current$ rake fountain:s1_registrar_ca
+
+    fountain@fountain1:~/fountain/current$ ls -l db/cert/.
+    -rw-r--r-- 1 fountain fountain 916 Nov  5 03:30 ownerca_secp384r1.crt
+    -rw-rw-r-- 1 fountain fountain 288 Nov  5 03:30 ownerca_secp384r1.key
+
+Unlike highway, the variable $CERTDIR is presently ignored.
+
+rake fountain:s2_create_registrar
+=================================
+
+This method should be run once (after h1) to generate a certificate
+(signed by the vendor CA certificate) which will be used to as the
+registrar certificate.  This will also be used as the TLS Server Certificate
+for the BRSKI process.
+The cmcRA extension will be set if the underlying openssl permits this
+extension. Sadly, such extensions require source code patches.
+
+    fountain@fountain1:~/fountain/current$ rake fountain:s2_create_registrar
+    Can not setup cmcRA extension, as openssl not patched, continuing anyway...
+
+    fountain@fountain1:~/fountain/current$ ls -l db/cert/.
+    total 5
+    -rw-r--r-- 1 fountain fountain 700 Nov  5 03:31 jrc_prime256v1.crt
+    -rw-rw-r-- 1 fountain fountain 227 Nov  5 03:31 jrc_prime256v1.key
+    -rw-r--r-- 1 fountain fountain 916 Nov  5 03:30 ownerca_secp384r1.crt
+    -rw-rw-r-- 1 fountain fountain 288 Nov  5 03:30 ownerca_secp384r1.key
+
+Unlike highway, the variable $CERTDIR is presently ignored.
+
+Running Fountain Join-Registrar/Coordinator (JRC)
+-------------------------------------------------
+
+To start the server, once it is configured:
+
+    lxc exec fountain -- su fountain
+
+    bin/startj6rc -D &
+    bin/startjrc -D &
+
+The -D will put a few debug message in the foreground, but the bulk of the
+debug will be in a lot file.
+The startj6rc starts the CoAPS (constrained) responder.
+The startjrc starts the HTTPS (non-constrained) responder.  Note that the
+ruby binary has been marked as permitted to bind port 443 via the script
+at: /home/mcr/src/testing/fix-ruby-port443.  In order to make this work,
+some ruby and openssl library paths have been added to /etc/ld.so.conf.
+
+    tail -f fountain/shared/log/production.log &
+
+Will show the entire log file as it grows.
+
+A production load Registrar server would use the passenger plugin to Apache to
+scale better.  A high-capacity Registrar server would make use of a three-tier
+web framework (presentation-tier/load-balancer, application server-tier,
+and database-tier) to do typical web scaling.  Setting up such a system is
+not in the scope for this document, please contact Sandelman Software Works
+for help setting such an environment up.
+
+The /version URL does not currently work in Fountain, it will be added.
+
+The CoAPS and HTTPS code can run at the same time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
