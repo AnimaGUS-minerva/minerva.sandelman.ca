@@ -2,4 +2,4 @@
 
 export LC_ALL=en_CA.UTF-8
 JEKYLL_ENV=production rvm 2.4.1 do jekyll build
-rsync -avr --delete-after --delete-excluded   _site/ minerva@minerva.sandelman.ca:html
+rsync -avr --delete-after --filter 'protect /qcow/' --delete-excluded   _site/ minerva@minerva.sandelman.ca:html
