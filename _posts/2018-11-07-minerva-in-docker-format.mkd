@@ -4,7 +4,7 @@ layout: page
 # Content
 #
 subheadline: "Testing with containers"
-title: "Minerva Highway MASA and Fountain JRC in LXD containers"
+title: "Minerva Highway MASA and Fountain JRC in Docker containers"
 teaser: "ANIMA in a virtual box"
 categories:
   - containers
