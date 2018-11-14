@@ -1,0 +1,40 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Testing with containers"
+title: "Minerva Highway MASA and Fountain JRC in LXD containers: v2"
+teaser: "ANIMA in a virtual box"
+categories:
+  - containers
+tags:
+  - containers
+  - anima
+  -
+#
+# Styling
+#
+---
+
+This is another update to [Minerva in LXD form](/containers/2018/10/20/minerva-in-lxd-form).
+
+The 3rd highway image is at:
+
+    wget https://minerva.sandelman.ca/qcow/f857f070a99391910582a93b3df1aade1f84a01615339de957c15a8967383792.tar.gz
+    lxc image import f857f070a99391910582a93b3df1aade1f84a01615339de957c15a8967383792.tar.gz \
+        --alias highway
+
+This version adds a "rake highway:signcsr CSR=file.csr CERT=output.pem",
+which will process a Certificate Signing Request, and produce an IDevID
+based upon the provided public key, and the requested serialNumber.
+
+For details on configuring the MASA, see [Highway Configuration](/highway/configuration)
+
+For details on configuring the JRC, see [Fountain Configuration](/fountain/configuration)
+
+
+
+
+
+
