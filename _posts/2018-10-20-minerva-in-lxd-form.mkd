@@ -89,12 +89,12 @@ on your network by name to your registrar instances, you may wish to enable
 ssh within the container.  This is not required, you can always enter the
 container using bash (as root), or to go directly to the MASA (highway) user:
 
-    % lxc exec highway -- su highway
+    % lxc exec highway -- su - highway
     highway@florean:/root$
 
 To start ssh, you need to first install your ssh keys:
 
-    % lxc exec highway -- su highway
+    % lxc exec highway -- su - highway
     highway@florean:/root$ vi ~/.ssh/authorized_keys
 
 You may remove the ssh keys from mcr@ if you do not need/want remote support.

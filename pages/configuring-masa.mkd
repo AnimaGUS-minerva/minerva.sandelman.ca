@@ -20,7 +20,7 @@ Login:
 
 or:
 
-    lxc exec highway -- su highway
+    lxc exec highway -- su - highway
 
     cd current
 
