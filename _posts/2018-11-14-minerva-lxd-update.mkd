@@ -21,8 +21,9 @@ This is another update to [Minerva in LXD form](/containers/2018/10/20/minerva-i
 
 The 3rd highway image is at:
 
-    wget https://minerva.sandelman.ca/qcow/f857f070a99391910582a93b3df1aade1f84a01615339de957c15a8967383792.tar.gz
-    lxc image import f857f070a99391910582a93b3df1aade1f84a01615339de957c15a8967383792.tar.gz \
+    wget https://minerva.sandelman.ca/qcow/0e745ddb6a22fa7e9a783215a8d9dcb81386972a6e7e54ee97b721cda79b070b.tar.gz
+    lxc image import \
+    0e745ddb6a22fa7e9a783215a8d9dcb81386972a6e7e54ee97b721cda79b070b.tar.gz \
         --alias highway
 
 This version adds a "rake highway:signcsr CSR=file.csr CERT=output.pem",
