@@ -76,7 +76,7 @@ called highway0.  Start with the highway0 container.
 The instance is called florean after "florean.sandelman.ca".  You should
 adjust the hostname and the network settings by editing the files:
 
-    root@florean:~# vi /etc/hostname /etc/network/interfaces
+    root@florean:~# vi /etc/hostname /etc/network/interfaces /etc/resolv.conf
 
 Edit to suit, restart container or use ifdown/ifup to change settings.
 The MASA will need a name that will be put into certificates that is

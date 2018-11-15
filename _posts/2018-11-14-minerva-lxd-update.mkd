@@ -29,6 +29,27 @@ This version adds a "rake highway:signcsr CSR=file.csr CERT=output.pem",
 which will process a Certificate Signing Request, and produce an IDevID
 based upon the provided public key, and the requested serialNumber.
 
+A pre-existing instance of highway can be upgraded by running:
+
+    lxc highway -- su - highway
+    highway@highway0:~$ curl https://minerva.sandelman.ca/qcow/highway-20181114213252.tgz | tar -C / --unlink -x -z -v -f -
+    ..
+
+Verify that the current link was updated:
+
+    highway@highway0:~$ ls -l current
+    lrwxrwxrwx 1 highway highway 37 Nov 14 21:33 current -> /home/highway/releases/20181114213252
+
+Then run any migrations that there might be:
+
+    highway@highway0:~$ cd current
+    highway@highway0:~/current$ rake db:migrate
+    == 20181113230344 AddCertificateToDevice: migrating ===========================
+    -- add_column(:devices, :idevid_cert, :text)
+    -> 0.0050s
+    == 20181113230344 AddCertificateToDevice: migrated (0.0060s) ==================
+
+
 For details on configuring the MASA, see [Highway Configuration](/highway/configuration)
 
 For details on configuring the JRC, see [Fountain Configuration](/fountain/configuration)
