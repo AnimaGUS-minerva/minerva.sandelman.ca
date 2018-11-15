@@ -32,13 +32,13 @@ based upon the provided public key, and the requested serialNumber.
 A pre-existing instance of highway can be upgraded by running:
 
     lxc highway -- su - highway
-    highway@highway0:~$ curl https://minerva.sandelman.ca/qcow/highway-20181114213252.tgz | tar -C / --unlink -x -z -v -f -
+    highway@highway0:~$ curl https://minerva.sandelman.ca/qcow/highway-20181115025559.tgz | tar -C / --unlink -x -z -v -f -
     ..
 
 Verify that the current link was updated:
 
     highway@highway0:~$ ls -l current
-    lrwxrwxrwx 1 highway highway 37 Nov 14 21:33 current -> /home/highway/releases/20181114213252
+    lrwxrwxrwx 1 highway highway 37 Nov 14 21:33 current -> /home/highway/releases/20181115025559
 
 Then run any migrations that there might be:
 
