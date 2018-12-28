@@ -355,12 +355,21 @@ and database-tier) to do typical web scaling.  Setting up such a system is
 not in the scope for this document, please contact Sandelman Software Works
 for help setting such an environment up.
 
+Testing the MASA
+----------------
+
 To test if the MASA is answering correctly, from another machine do:
 
     fountain@eeylops:~/fountain/current$ curl -k https://florean.sandelman.ca/version
     highway:
     Version: 0.9
     Revision: devel
+
+or:
+    curl --cacert db/cert/vendor_secp384r1.crt https://highway-test.example.com/version.json
+
+does the same thing in JSON.
+
 
 One can also visit the /status and /status.json URLS:
 
@@ -375,7 +384,6 @@ One can also visit the /status and /status.json URLS:
 One can combine the instructions to start:
 
     lxc exec highway -- su highway -c /home/highway/bin/server
-
 
 
 
