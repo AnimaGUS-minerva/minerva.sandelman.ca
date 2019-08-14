@@ -45,7 +45,6 @@ google_analytics: UA-108134087-1
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-feeling-responsive
 plugins: [jekyll-paginate,jekyll-feed]
 include: ['.htaccess']
 # Exclude these files from your production _site

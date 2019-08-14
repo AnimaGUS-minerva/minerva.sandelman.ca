@@ -1,0 +1,44 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Setting up database for development"
+title: "Minerva Highway MASA and Fountain JRC database configuration"
+teaser: "ANIMA in a virtual box"
+categories:
+  - database
+tags:
+  - fountain
+  - highway
+#
+# Styling
+#
+---
+
+You need to setup the config/database.yml with a connection to a valid
+database.  This is the case for both MASA (highway) and Registrar (fountain).
+You can use a local sqlite3 database with something like:
+
+development:
+  adapter: sqlite3
+  database: /app/database/development.sqlite3
+  pool: 5
+  timeout: 5000
+
+This example is in docker/config/database.yml in fountain.
+
+If you want to use postgresql running locally (recommended), then you can use
+the "can-o-pg" which is integrated.  Make sure you have postgresql 8, 9 or 10,
+installed (but you don't have to have it running).
+Make sure that you have checked up all submodules:
+     git submodule init
+     git submodule update
+
+and then run "make" from the main directory, and if find postgresql, then it
+will initialize a database running in run/*.  No root required.
+     "make stop"
+to shut it down.
+
+Either way, you need to run "rake db:migrate" before you can run "rake spec".
+
