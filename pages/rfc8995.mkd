@@ -1,0 +1,52 @@
+---
+# -*- markdown -*-
+layout: page
+header: no
+title: "RFC8995: Bootstrapping Remote Secure Key Infrastructure"
+permalink: /rfc8995/
+---
+
+The document <a href="https://www.rfc-editor.org/info/rfc8995">RFC8995</a> was published
+by the RFC-editor on May ??, 2021.
+It is the result of numerous reviews from 2016 to 2020.
+It was approved by the IETF's IESG in April 2020, but it had to wait in the RFC-editor Q due to normative references to other documents, such as <a href="https://www.rfc-editor.org/info/rfc8994">RFC8994</a>.
+
+More information about this and other implementations of BRSKI can be found at
+<a href="https://brski.org">brski.org</a>
+
+There are currently five extension documents:
+
+## BRSKI Cloud Registrar
+
+<a href="https://datatracker.ietf.org/doc/draft-ietf-anima-brski-cloud">BRSKI Cloud Registrar</a> deals with cases where a device is being deployed into an environment where there is no local bootstrapping support.
+It deals primarily with application onboarding where physical connectivity is provided by a wire, or perhaps via another wifi onboarding protocol.
+
+## BRSKI Asynchronous Enrollment
+
+<a href="https://datatracker.ietf.org/doc/draft-ietf-anima-brski-async-enroll">Support of asynchronous Enrollment in BRSKI (BRSKI-AE)</a> deals with disconnected uses of BRSKI,
+such as when the device to be enrolled has no network at all.
+This also describes use of CMP rather than EST for enrollment.
+
+## Constrained Voucher and Constrained BRSKI
+
+<a href="https://datatracker.ietf.org/doc/draft-ietf-anima-constrained-voucher">Constrained Voucher Artifacts for Bootstrapping Protocols</a> deals with BRSKI on constrained devices and using challenged networks.  It uses COAPS (CoAP over DTLS) for transport, and COSE signed CBOR for voucher formats.
+
+## Constrained Join Proxy for Bootstrapping Protocols
+
+<a href="https://datatracker.ietf.org/doc/draft-ietf-anima-constrained-join-proxy">Constrained Join Proxy for Bootstrapping Protocols</a> supports Constrained-Voucher for the DTLS case.
+
+
+## JOSE signed Voucher Artifacts for Bootstrapping Protocols
+
+<a href="https://datatracker.ietf.org/doc/draft-richardson-anima-jose-voucher">
+JOSE signed Voucher Artifacts for Bootstrapping Protocols</a> proposes a new voucher format that uses only JOSE rather than CMS.
+
+## Autonomic Control Plane challenges for Layer-Two Switched Networks
+
+<a href="https://datatracker.ietf.org/doc/draft-richardson-anima-l2-friendly-acp">
+Autonomic Control Plane challenges for Layer-Two Switched Networks
+</a> deals with the problem of how to best do ACP discovery and transport in L2 networks.
+
+
+
+

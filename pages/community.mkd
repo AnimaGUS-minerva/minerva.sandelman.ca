@@ -1,4 +1,4 @@
---- 
+---
 # -*- markdown -*-
 layout: page
 header: no
@@ -17,4 +17,12 @@ to subscribe to the mailing list.
 
 Please visit the github pages at: [https://github.com/ANIMAgus-minerva/](https://github.com/ANIMAgus-minerva/) to contribute.
 
+# Documentation
+
+## RFCs
+
+<ul>
+    <li> <a href="/rfc8994">RFC8994</a> and friends.
+    <li> <a href="/rfc8995">RFC8995</a> and friends.
+</ul>
 

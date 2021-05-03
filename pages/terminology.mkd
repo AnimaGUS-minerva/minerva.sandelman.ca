@@ -2,9 +2,13 @@
 # -*- markdown -*-
 layout: page
 header: no
-title: "Fountain Join Registrar/Coordinator"
+title: "Some additional BRSKI terminology"
 permalink: /terminology/
 ---
+
+The terms raku and bisque were proposed in 2018 as adjectives for the two kinds of voucher-request.
+The terms have not taken off.
+They remain here as reference.
 
 ### <a name="rake" />raku
 
@@ -20,6 +24,14 @@ making it water-tight and ready to accept colour.
 
 A bique voucher request is one which is signed by the JRC, and contains a
 prior-signed-voucher-request that contains a raku voucher request.
+
+### <a name="parboiled" />parboiled
+
+A parboiled potato is one which has been cooked partly before being to cooked in another fashion.
+A parboiled voucher-request is one which has been processed by the JRC and then sent on
+to the MASA.
+This term has replaced "bisque" in a number of documents, including the appendix of <a href="/rfc8995">RFC8995.</a>
+
 
 
 

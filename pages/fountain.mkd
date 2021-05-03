@@ -13,18 +13,15 @@ access.  It receives the ([raku](/terminology#raku)) voucher request, stores
 and extracts the MASA URL.
 
 Fountain then reaches out to the indicated MASA, and submits a
-([bisque](/terminology#bisque)) voucher request to get an actual voucher.
+([parboiled](/terminology#parboiled)) voucher request to get an actual voucher.
 
 The voucher is relayed to the pledge.
 
-The release 0.50 of the Fountain JRC does not yet support the actual
-enrollment process.  That's simply an matter of not yet implemented.
+The release 0.90 of the Fountain JRC is capable of doing onboarding via HTTPS and enrolling the device using RFC7030 (EST), using RFC8366 (CMS-signed JSON) vouchers.
 
-Unsigned voucher requests and offline renewals are also not yet supported.
+Constrained vouchers are supported, but the DTLS support is poor at present.
 
-There are few negative (challenge, or attack) test cases.
-
-As part of the Minerva project two public JRCs have been set up.
+A VMDK format virtual machine is available.
 
 [Fountain is on github](https://github.com/AnimaGUS-minerva/fountain)
 

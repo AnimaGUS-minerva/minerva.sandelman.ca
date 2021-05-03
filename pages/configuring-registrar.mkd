@@ -11,6 +11,7 @@ permalink: /fountain/configuration/
 #
 ---
 
+A VirtualBox VMDK format VM in OVA format is available, please see {{rfc8995}}.
 This assumes you are running the Fountain JRC in a container, but if you are
 running it as a full VM, then you will login via ssh.
 
