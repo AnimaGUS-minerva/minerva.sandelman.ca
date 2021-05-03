@@ -20,7 +20,9 @@ A method for deployment via Heroku is being developed.
 
 ## Fountain Registrar as a VM
 
-There is an OVA container at https://minerva.sandelman.ca/qcow/fountain-20210502.ova
+There is an OVA container at [https://minerva.sandelman.ca/qcow/fountain-20210502.ova](https://minerva.sandelman.ca/qcow/).
+You probably want to use wget, not your browser to download this file.
+
 It is 1.1G in size, and uses a thin-provisioned VMDK disk image, which can be as large as 8G, but is currently 3.4G in size (including swap).
 (It can be converted via qemu-img to QCOW format to be used with KVM or XEN)
 
