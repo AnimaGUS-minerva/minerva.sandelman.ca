@@ -21,8 +21,8 @@ Please visit the github pages at: [https://github.com/ANIMAgus-minerva/](https:/
 
 ## RFCs
 
-<ul>
-    <li> <a href="/rfc8994">RFC8994</a> and friends.
-    <li> <a href="/rfc8995">RFC8995</a> and friends.
-</ul>
+* <a href="/rfc8994">RFC8994</a>
+* <a href="/rfc8995">RFC8995</a> and friends.
+
+
 

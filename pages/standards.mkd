@@ -11,7 +11,10 @@ Minerva is built upon the [IETF ANIMA WG](https://datatracker.ietf.org/wg/anima/
 
 The following documents detail how things work together.
 
-Please see [Terminology](https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-1.2) and [Protocol flow from BRSKI)[https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-2.4] for an explanation of the terms MASA, JRC, and Pledge.
+{{RFC8995}} is the primary BRSKI specification.  More details at https://brski.org/
+
+Please see  [Terminology](https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-1.2) and [Protocol flow from BRSKI)[https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-2.4] for an explanation of the terms MASA, JRC, and Pledge.
+(XXX - UPDATE to RFC8995)
 
 + The Manufacturer creates new devices and places IDevID certificates into the devices at production time.
 
@@ -44,7 +47,8 @@ Please see [Terminology](https://tools.ietf.org/html/draft-ietf-anima-bootstrapp
     [ROLL](https://tools.ietf.org/html/rfc6550) routing protocol is used in
     storing mode to establish connectivity.
 
-This process is described in the [Autonomic Control Plane](https://tools.ietf.org/html/draft-ietf-anima-autonomic-control-plane-12) document.
+This process is described in the [Autonomic Control Plane](https://tools.ietf.org/html/draft-ietf-anima-autonomic-control-plane-12) document,
+which will be {{rfc8994}}
 
 
 

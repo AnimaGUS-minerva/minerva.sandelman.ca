@@ -21,7 +21,7 @@ The release 0.90 of the Fountain JRC is capable of doing onboarding via HTTPS an
 
 Constrained vouchers are supported, but the DTLS support is poor at present.
 
-A VMDK format virtual machine is available.
+A VMDK format [virtual machine is available](/virtualmachines)
 
 [Fountain is on github](https://github.com/AnimaGUS-minerva/fountain)
 
