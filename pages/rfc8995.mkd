@@ -7,12 +7,13 @@ permalink: /rfc8995/
 ---
 
 The document <a href="https://www.rfc-editor.org/info/rfc8995">RFC8995</a> was published
-by the RFC-editor on May ??, 2021.
+by the RFC-editor on May 28, 2021.
 It is the result of numerous reviews from 2016 to 2020.
 It was approved by the IETF's IESG in April 2020, but it had to wait in the RFC-editor Q due to normative references to other documents, such as <a href="https://www.rfc-editor.org/info/rfc8994">RFC8994</a>.
 
 More information about this and other implementations of BRSKI can be found at
-<a href="https://brski.org">brski.org</a>
+<a href="https://brski.org">brski.org</a> (or
+<a href="https://rfc8995.org">rfc8995.org</a>)
 
 There are currently five extension documents:
 
