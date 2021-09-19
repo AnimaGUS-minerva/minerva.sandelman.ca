@@ -20,7 +20,7 @@ Login:
 
 or:
 
-    lxc exec highway -- su highway
+    lxc exec highway -- su - highway
 
     cd current
 
@@ -187,6 +187,51 @@ voucher back into the database.
 
 This is only really useful for deep testing.
 
+rake highway:signcsr
+==========================
+
+The signcsr action will take a Certificate Signing Request is CSR=file,
+and it will create a device entry for it, and then produce an IDevID
+certificate which it will put in the file CERT=file2.pem.
+
+A signing request that has a public key that matches an existing entry
+will reuse that entry.
+
+A signing request that does not have a matching key, but does match
+an existing serialNumber will be rejected as a duplicate.  Mark the
+obsolete entry as obsolete first.
+
+    highway@highway0:~/current$ rake highway:signcsr CSR=spec/files/csr/sample1.csr  CERT=/tmp/n1.pem
+    highway@highway0:~/current$ openssl x509 -noout -text -in /tmp/n1.pem
+    Certificate:
+    Data:
+    Version: 3 (0x2)
+    Serial Number: 1361584186 (0x5128203a)
+    Signature Algorithm: ecdsa-with-SHA256
+    Issuer: DC = ca, DC = sandelman, DC = dervish, CN = dervish.sandelman.ca CA
+    Validity
+    Not Before: Nov 15 03:02:31 2018 GMT
+    Not After : Dec 31 00:00:00 2999 GMT
+    Subject: serialNumber = IOTRUS-0123456789
+    Subject Public Key Info:
+    Public Key Algorithm: rsaEncryption
+    Public-Key: (2048 bit)
+    Modulus:
+    00:ad:97:6a:b1:b9:87:42:df:68:34:75:37:95:6d:
+    ...
+    a1:ab
+    Exponent: 65537 (0x10001)
+    X509v3 extensions:
+    X509v3 Subject Key Identifier:
+    2B:BD:D6:9E:9C:32:2A:8D:AB:82:BA:A9:1F:35:E9:08:B7:93:E4:80
+    X509v3 Basic Constraints:
+    CA:FALSE
+    X509v3 Subject Alternative Name:
+    othername:<unsupported>
+    1.3.6.1.4.1.46930.2:
+    ..https://dervish.sandelman.ca
+
+
 rake highway:inventory
 ==========================
 
@@ -310,12 +355,21 @@ and database-tier) to do typical web scaling.  Setting up such a system is
 not in the scope for this document, please contact Sandelman Software Works
 for help setting such an environment up.
 
+Testing the MASA
+----------------
+
 To test if the MASA is answering correctly, from another machine do:
 
     fountain@eeylops:~/fountain/current$ curl -k https://florean.sandelman.ca/version
     highway:
     Version: 0.9
     Revision: devel
+
+or:
+    curl --cacert db/cert/vendor_secp384r1.crt https://highway-test.example.com/version.json
+
+does the same thing in JSON.
+
 
 One can also visit the /status and /status.json URLS:
 
@@ -330,7 +384,6 @@ One can also visit the /status and /status.json URLS:
 One can combine the instructions to start:
 
     lxc exec highway -- su highway -c /home/highway/bin/server
-
 
 
 

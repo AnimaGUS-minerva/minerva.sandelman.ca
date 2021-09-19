@@ -1,0 +1,62 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Testing with containers"
+title: "Minerva Highway MASA and Fountain JRC in LXD containers: v2"
+teaser: "ANIMA in a virtual box"
+categories:
+  - containers
+tags:
+  - containers
+  - anima
+  -
+#
+# Styling
+#
+---
+
+This is another update to [Minerva in LXD form](/containers/2018/10/20/minerva-in-lxd-form).
+
+The 3rd highway image is at:
+
+    wget https://minerva.sandelman.ca/qcow/0e745ddb6a22fa7e9a783215a8d9dcb81386972a6e7e54ee97b721cda79b070b.tar.gz
+    lxc image import \
+    0e745ddb6a22fa7e9a783215a8d9dcb81386972a6e7e54ee97b721cda79b070b.tar.gz \
+        --alias highway
+
+This version adds a "rake highway:signcsr CSR=file.csr CERT=output.pem",
+which will process a Certificate Signing Request, and produce an IDevID
+based upon the provided public key, and the requested serialNumber.
+
+A pre-existing instance of highway can be upgraded by running:
+
+    lxc highway -- su - highway
+    highway@highway0:~$ curl https://minerva.sandelman.ca/qcow/highway-20181115025559.tgz | tar -C / --unlink -x -z -v -f -
+    ..
+
+Verify that the current link was updated:
+
+    highway@highway0:~$ ls -l current
+    lrwxrwxrwx 1 highway highway 37 Nov 14 21:33 current -> /home/highway/releases/20181115025559
+
+Then run any migrations that there might be:
+
+    highway@highway0:~$ cd current
+    highway@highway0:~/current$ rake db:migrate
+    == 20181113230344 AddCertificateToDevice: migrating ===========================
+    -- add_column(:devices, :idevid_cert, :text)
+    -> 0.0050s
+    == 20181113230344 AddCertificateToDevice: migrated (0.0060s) ==================
+
+
+For details on configuring the MASA, see [Highway Configuration](/highway/configuration)
+
+For details on configuring the JRC, see [Fountain Configuration](/fountain/configuration)
+
+
+
+
+
+

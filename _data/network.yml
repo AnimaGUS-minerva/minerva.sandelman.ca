@@ -10,11 +10,6 @@
   class: "rss-link"
   title: "Images by Unsplash"
 
-- name: "Theme by Phlow"
-  url:  "http://phlow.de"
-  class: "services-newsletter"
-  title: "Theme by Phlow"
-
 - name: "Using Backstretch by Scott Robbin"
   url: "http://srobbin.com/jquery-plugins/backstretch/"
   class: "sitemap-link"
