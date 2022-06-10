@@ -96,5 +96,5 @@ Some minor bits of explanation.
 
 The next article details setting up and testing each component.
 
-![Watch It Installed](/images/.svg)
+![Watch It Installed](/images/minerva-installed-on-ubuntu22.svg)
 
