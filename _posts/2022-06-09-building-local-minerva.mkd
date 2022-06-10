@@ -96,5 +96,6 @@ Some minor bits of explanation.
 
 The next article details setting up and testing each component.
 
-![Watch It Installed](/images/minerva-installed-on-ubuntu22.svg)
+There is an animation at: [Ubuntu22](/images/minerva-installed-on-ubuntu22.svg), but the size of the SVG file crashes the tab on Chrome.
+
 
