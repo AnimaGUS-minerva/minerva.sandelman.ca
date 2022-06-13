@@ -1,0 +1,216 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Setup database and run examples for fountain"
+title: "Minerva Fountain MASA R&D configuration"
+teaser: "ANIMA on the command line"
+categories:
+  - openssl
+tags:
+  - fountain
+  - highway
+#
+# Styling
+#
+---
+
+The Fountain Registration Authority (Registrar) is an RFC8995 compliant BRSKI-MASA server.
+It includes support for both RFC8366 vouchers, and COSE/CBOR based constrained vouchers.
+It speaks both HTTPS and CoAPS (CoAP over DTLS).
+
+It is designed to be deployed into a three-tier application framework with a front-end like Passenger, and a Postgres database backend.
+It is available in the form of LXC, VMDK, and docker images, as well as as virtual appliance format.
+
+Note that while the MASA is operated by the manufacturer of an IoT device or ACP router,
+the Registrar is operated by the owner of the network to which the device should onboard.
+
+This guide does not describe how to do production deployment, but rather how to set it up for R&D work.
+In such a configuration it runs as a single threaded foreground process answering HTTPS requests on localhost using a unique port number.
+
+In many other systems, the HTTPS and certificate aspect of the system is not an essential part of the mechanism and R&D uses can often skip that.
+This is not the case for BRSKI: the security mechanisms are woven into the protocol and so getting them all setup correctly is essential for correct usage.
+
+Assuming that the code has been installed in `/someplace/highway` as described in
+[Minerva Highway MASA and Fountain JRC local configuration use](/openssl/2022/06/09/building-local-minerva.html), then a test case situation is configured easily using the included `can-o-pg` present in the `etc` submodule.
+
+This also assumes that you have already configured highway on the same machine.
+
+First, open a new window, or use screen or tmux.
+
+~~~~
+% cd /someplace/fountain/
+% make
+~~~~
+
+This step should locate the postgresql server executable and then initialize a postgresql cluster in the directory `run/dbcluster`.  The command `make stop` will stop the cluster, and the command `make clean` will completely remove it.
+
+If you get an error
+````
+WHERE IS POSTGRESQL/initdb --encoding=utf8 -D /someplace/highway/run/dbcluster
+````
+
+then the scripts failed to find an installed version of postgresql 9,10,11,12,13,14.
+
+To complete the template installation, copy the generated database.yml:
+````
+% cp etc/database.yml ./config/database.yml
+````
+
+Update the database schema and run the test cases:
+````
+% bundle exec rake db:migrate
+% bundle exec rake spec
+````
+
+As of 2022-06-12, you may see a "2 failures" for two test cases which were incomplete, but got committed by mistake, and will get fixed very soon.  They are:
+~~~~
+./spec/models/voucher_spec.rb:44
+./spec/requests/est_csr_spec.rb:35
+~~~~
+
+There are a number of Registrar specific tasks that rake can do:
+~~~~
+% rake -T
+...
+rake fountain:cert2pubkey                # Read a certificate from CERT= and extract ...
+rake fountain:grasp                      # Start a GRASP server on port 7732
+rake fountain:mud_telemetry              # Create process that listens for telemetry ...
+rake fountain:s0_set_hostname            # Do initial setup of system variables, non-...PORT=xxx
+rake fountain:s0_setup_jrc               # Do initial setup of sytem variables
+rake fountain:s1_registrar_ca            # Create initial self-signed CA certificate ...
+rake fountain:s2_create_registrar        # Create a certificate for the Registration ...
+rake fountain:s3_admin_cert              # Create initial administrative account with...
+rake fountain:s4_domain_authority        # Create a keypair for the domain owner to...
+rake fountain:s5_add_brski_manufacturer  # Add BRSKI manufacturer from CERT=file,...
+rake fountain:send_voucher_request       # send signed voucher request VRID=xx ...
+rake fountain:sign_csr                   # Read a CSR from CSR= and sign it as ...
+...
+~~~~
+
+To facilitate testing and R&D work, the fountain repo comes with a full set of configured objects and database entries in the form of fixtures.
+This includes certificates and private key pairs that can be used for testing.
+
+~~~~
+% bundle exec rake db:fixtures:load
+~~~~
+
+Start the HTTPS server locally on port 8443 using:
+
+~~~~
+$ RAILS_ENV=development ./startjrc
+~~~~
+
+Note that there is a different script, "startj6rc" which starts the Constrained Version,
+which will be covered in a different posting.
+
+Open another window/shell and run:
+
+~~~~
+$ curl -k https://fountain-test.example.com:8443/status.json; echo
+{"Devices":0,"Vouchers":3,"Requests":1}
+~~~~
+
+Now, change to the reach directory and configure it:
+
+~~~~
+% ( cd .. && ln -s ChariWTs chariwt )
+% cd ../reach && bundle config set --local path 'vendor/bundle' && bundle install && bundle exec rake -T
+~~~~
+
+Reach is a client library that speaks HTTPS to the Registrar to obtain a voucher, and then to enroll a device into the Registrar's PKI using EST.
+
+Reach comes with a number of IDevID certificates (and private keys) generated and coordinated by various instances of Highway, as well as some other vendor's MASA.
+
+The files are stored in a per-instance directory under spec/files/product, and for highway they are identified by at EUI-48.  (The upper bits, 00-D0-E5, belong to a dead company that the author used to work at)
+
+~~~~
+minerva@jiggers:/someplace/reach$ cd spec/files/product/
+minerva@jiggers:/someplace/reach/spec/files/product$ ls
+00-D0-E5-01-00-16  00-D0-E5-02-00-39  00-D0-E5-F2-00-01  00-D0-E5-F2-00-0E  e75_100a
+00-D0-E5-02-00-2D  00-D0-E5-03-00-03  00-D0-E5-F2-00-02  00-D0-E5-F2-00-10  Smarkaklink-1502449999
+00-D0-E5-02-00-2E  00-D0-E5-90-00-1A  00-D0-E5-F2-00-03  00-D0-E5-F2-00-11
+minerva@jiggers:/someplace/reach/spec/files/product$ cd 00-D0-E5-F2-00-02
+minerva@jiggers:/someplace/reach/spec/files/product/00-D0-E5-F2-00-02$ ls -l
+total 68
+-rwxr-xr-x 1 minerva minerva  407 Jun 11 15:07 checkit
+-rwxr-xr-x 1 minerva minerva  166 Jun 11 15:07 constrained.sh
+-rw-r--r-- 1 minerva minerva   74 Jun 13 00:27 csrattr.der
+-rw-r--r-- 1 minerva minerva  291 Jun 13 00:27 csr.der
+-rw-r--r-- 1 minerva minerva  644 Jun 11 15:07 device.crt
+-rw-r--r-- 1 minerva minerva   59 Jun 11 15:07 highway-test.txt
+-rw-r--r-- 1 minerva minerva  749 Jun 11 15:07 jrc_prime256v1.crt
+-rw-r--r-- 1 minerva minerva  227 Jun 11 15:07 key.pem
+-rw-r--r-- 1 minerva minerva  546 Jun 11 15:07 ldevid.der
+-rw-r--r-- 1 minerva minerva  558 Jun 11 15:07 masa.crt
+-rw-r--r-- 1 minerva minerva  899 Jun 11 15:07 ownerca_secp384r1.crt
+-rw-r--r-- 1 minerva minerva 5336 Jun 11 15:07 parboiled_vr_00-D0-E5-F2-00-02.b64
+-rw-r--r-- 1 minerva minerva 1509 Jun 11 15:07 vendor.crt
+-rw-r--r-- 1 minerva minerva 1601 Jun 13 00:27 voucher_00-D0-E5-F2-00-02.pkcs
+-rwxr-xr-x 1 minerva minerva  293 Jun 11 15:07 voucher.sh
+-rw-r--r-- 1 minerva minerva 1682 Jun 13 00:27 vr_00-D0-E5-F2-00-02.pkcs
+~~~~
+
+The file voucher.sh can be used to run everything properly, it basically just CDs to the top directory and then runs the code with current directory as a product directory.  It can be run locally, or via a path and it will figure things out.
+
+~~~~
+(cd $(dirname $0)/../../../..
+ bundle exec rake reach:enroll_http_pledge PRODUCTID=spec/files/product/00-D0-E5-F2-00-02 JRC=https://fountain-test.sandelman.ca:8443/
+)
+~~~~
+
+Run ./voucher.sh (some lines ommitted):
+
+~~~~
+minerva@jiggers:/someplace/reach/spec/files/product/00-D0-E5-F2-00-02$ ./voucher.sh
+MASA/JRC provided voucher of type application/voucher-cms+json; charset=utf-8
+Voucher connects to /DC=ca/DC=sandelman/CN=fountain-test.example.com
+vs:   /DC=ca/DC=sandelman/CN=fountain-test.example.com
+Voucher authenticates this connection!
+Other: #<Net::HTTPUnauthorized:0x0000558c89a3ccd8>
+mv: cannot stat '../../../../tmp/csr*': No such file or directory
+~~~~
+
+This did not succeed in doing the enrollment because the default trust was not set on the Registrar to for a promiscious trust.   Observer in the fountain window that it:
+
+1. Reached out to the MASA:
+
+~~~~
+Contacting server at: https://highway-test.example.com:9443/.well-known/brski/requestvoucher about 00-D0-E5-F2-00-02 [2]
+Asking for voucher of type: application/voucher-cms+json
+....
+MASA at https://highway-test.example.com:9443/.well-known/brski/requestvoucher says OK
+MASA provided voucher of type application/voucher-cms+json
+~~~~
+
+2. But, when asked to enroll with EST, it declined:
+
+~~~~
+client connected to device 32 was not considered to have become trusted
+~~~~
+
+So, in some window (where 32 is replaced with whatever number was given):
+
+~~~~
+minerva@jiggers:/someplace/fountain$ bundle exec rails console
+irb(main):001:0> d=Device.find(32)
+irb(main):002:0> d.manufacturer.trust_brski!
+~~~~
+
+You'll see some database updates scroll by in the fountain window.
+In the reach window, up-arrow-return:
+
+~~~~
+minerva@jiggers:/someplace/reach/spec/files/product/00-D0-E5-F2-00-02$ ./voucher.sh
+MASA/JRC provided voucher of type application/voucher-cms+json; charset=utf-8
+Voucher connects to /DC=ca/DC=sandelman/CN=fountain-test.example.com
+vs:   /DC=ca/DC=sandelman/CN=fountain-test.example.com
+Voucher authenticates this connection!
+
+Registrar returned CSR of type application/csrattrs; charset=utf-8
+new device gets rfc822Name: rfc8994+fd739fc23c3440112233445500000000+@acp.example.com
+Registrar returned certificate of type application/pkcs7-mime; charset=utf-8 [in tmp/certificate.der]
+~~~~
+
+Please note that the format of the CSR attributes is subject to update in the LAMPS WG!
