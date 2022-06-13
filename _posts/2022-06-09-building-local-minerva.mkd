@@ -58,7 +58,7 @@ Login as the minerva user:
 % sudo chown $USER /someplace
 % cd /someplace
 % sudo apt-get update -y
-% sudo apt-get install ruby ruby-dev git build-essential postgresql-all libpq-dev libsqlite3-dev
+% sudo apt-get install libssl-dev ruby ruby-dev git build-essential postgresql-all libpq-dev libsqlite3-dev curl
 % sudo systemctl disable postgresql
 % sudo gem install rake-compiler bundler
 % sudo mkdir -p /sandel/3rd/openssl-dtls-api
@@ -72,7 +72,7 @@ Login as the minerva user:
 % git clone -b dtls-listen-refactor-1.1.1o https://github.com/mcr/openssl.git
 % git clone -b dtls-1.1.1o https://github.com/mcr/ruby-openssl.git
 % (cd openssl && ./Configure --prefix=/sandel/3rd/openssl-dtls-api -fPIC \
-   no-idea no-mdc2 no-rc5 no-zlib no-ssl3 no-tests no-shared debug  && \
+   no-idea no-mdc2 no-rc5 no-zlib no-ssl3 no-tests no-shared linux-x86_64  && \
    make && make install_sw )
 % (cd ruby-openssl && rake install_dependencies )
 % (cd ruby-openssl && rake compile -- --with-openssl-dir=/sandel/3rd/openssl-dtls-api )
@@ -93,6 +93,8 @@ Some minor bits of explanation.
 4. The Gemfile references "ruby-openssl-upstreamed" for hysterical raisons, thus the symlink.
 
 5. This uses the system supplied ruby executable, rather than an RVM one which was previously the best way.  The use of vendor/bundle does mean that duplicate gems may be installed, but on an R&D machine, this is hardly a concern.
+
+6. libssl-dev is required, or eventmachine won't get built with HTTPS support.
 
 The next article details setting up and testing each component.
 
