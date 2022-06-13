@@ -64,11 +64,7 @@ Update the database schema and run the test cases:
 % bundle exec rake spec
 ````
 
-As of 2022-06-12, you may see a "2 failures" for two test cases which were incomplete, but got committed by mistake, and will get fixed very soon.  They are:
-~~~~
-./spec/models/voucher_spec.rb:44
-./spec/requests/est_csr_spec.rb:35
-~~~~
+As of 2022-06-13, there should be 170 examples, with no failures, but there may be 8 pending test cases.
 
 There are a number of Registrar specific tasks that rake can do:
 ~~~~
@@ -214,3 +210,33 @@ Registrar returned certificate of type application/pkcs7-mime; charset=utf-8 [in
 ~~~~
 
 Please note that the format of the CSR attributes is subject to update in the LAMPS WG!
+
+If you go back to the highway window, and do:
+
+~~~~
+$ curl -k https://highway-test.example.com:9443/status.json; echo
+{"Devices":17,"Inventory":10,"Owners":5,"Vouchers":9,"Hostname":"highway-test.example.com","Requests":8}
+~~~~
+
+You'll see that the numbers increased.
+There is also a log for highway in log/development.log, which should be examined:
+
+~~~~
+less -r log/development.log
+
+...
+From: mcr+minerva@sandelman.ca
+To: minerva
+Subject: New cms_voucher voucher issued for Device 00-D0-E5-F2-00-02
+Mime-Version: 1.0
+
+Message from highway-test.example.com
+=============================
+
+Device Device 00-D0-E5-F2-00-02 [12] was re-sold to
+Registrar at ::ffff:127.0.0.1 with DN: /DC=ca/DC=sandelman/CN=localhost.
+
+~~~~
+
+
+
