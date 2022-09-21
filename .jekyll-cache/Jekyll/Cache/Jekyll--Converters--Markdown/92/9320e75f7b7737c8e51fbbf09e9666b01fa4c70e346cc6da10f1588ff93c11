@@ -1,0 +1,90 @@
+I"\<p>The Minerva suite of tools makes heavy use of three parts of OpenSSL code:</p>
+
+<ul>
+  <li>the Cryptographic Message Syntax (RFC5652)[https://www.rfc-editor.org/info/rfc5652] for interpreting non-constrained (RFC8366)[https://www.rfc-editor.org/info/rfc8366] vouchers.</li>
+  <li>HTTPS/TLS for communications security with RFC8995</li>
+  <li>CoAPS/DTLS for communications security for (Contrained-BRSKI)[https://datatracker.ietf.org/doc/draft-ietf-anima-constrained-voucher/]</li>
+</ul>
+
+<p>The CMS patches are almost entirely in the ruby-openssl level, creating new interfaces.
+See, https://github.com/ruby/openssl/pull/236 which languishes because of undiagnosed memory leaks in parts of the system that was never changed.</p>
+
+<p>The OpenSSL DTLS API is inadequate for use by the Fountain JRC.  It is interfaced through the ruby-openssl wrapper, plus the coap, david and celluloid-io ruby modules, all of which had to
+have changes to accomodate DTLS.</p>
+
+<p>A significant problem with patching the OpenSSL libraries is that they are also included in most systems.  Updating the system to new versions (putting 1.1.1 on a system that has 1.1.0) is often okay but replacing the 1.1.1 code with newer code is often a disaster.
+With shared library installation, one can install multiple shared libraries in multiple places, but the challenge is making sure that the right libraries get loaded.  Since the ruby interpreter comes with a ruby-openssl gem, and it has been compiled against the system libraries, it is trivially to accidentally get two copies of openssl loaded.</p>
+
+<p>In addition, openssl 3.x has been released, but the work on updating ruby-openssl to work with 3.x is not yet complete.  See: https://github.com/ruby/openssl/pull/399.</p>
+
+<p>For this reason the simplest way to do this work is to compile ruby-openssl against a statically linked openssl.  It is a bit bigger, since it does not share, but since the code would get loaded only once anyway on a system there isn’t really a big deal.</p>
+
+<p>Unfortunately, the extconf.rb mechanism has no clear way to force linking against .a files except by listing them explicitely by path, so there are some paths hard coded into that file, which is really annoying.</p>
+
+<p>The path selected is “/sandel/3rd/openssl-dtls-api”, which hopefully does not conflict with any other aspect of your system.   This path is only needed on the system(s) on which ruby-openssl is compiled.</p>
+
+<p>In the Gemfile for highway, fountain and reach, the relative path “../minerva/ruby-openssl” is used.</p>
+
+<p>Note that the code has been patched up to openssl-1.1.1o, which is the latest as of June 2022.</p>
+
+<p>This has been tested on a bare (Linode) Ubuntu 22.04 (LTS) [which uses ruby 3.x], a (Linode) Debian-11 [which uses ruby 2.7], and also an Ubuntu 20.04 (LTS).  It also works on devuan.org beowulf, which is my preferred desktop environment.</p>
+
+<p>So, use the following method to install the needed code bases:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># useradd -m -G sudo minerva
+</code></pre></div></div>
+
+<p>Login as the minerva user:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>% sudo mkdir /someplace
+% sudo chown $USER /someplace
+% cd /someplace
+% sudo apt-get update -y
+% sudo apt-get install ruby ruby-dev git build-essential postgresql-all libpq-dev libsqlite3-dev
+% sudo systemctl disable postgresql
+% sudo gem install rake-compiler bundler
+% sudo mkdir -p /sandel/3rd/openssl-dtls-api
+% sudo chown $USER /sandel/3rd/openssl-dtls-api
+% git clone --recurse-submodules https://github.com/AnimaGUS-minerva/highway.git
+% git clone --recurse-submodules https://github.com/AnimaGUS-minerva/fountain.git
+% git clone --recurse-submodules https://github.com/AnimaGUS-minerva/reach.git
+% git clone --recurse-submodules https://github.com/AnimaGUS-minerva/ChariWTs
+% mkdir minerva
+% cd minerva
+% git clone -b dtls-listen-refactor-1.1.1o https://github.com/mcr/openssl.git
+% git clone -b dtls-1.1.1o https://github.com/mcr/ruby-openssl.git
+% (cd openssl &amp;&amp; ./Configure --prefix=/sandel/3rd/openssl-dtls-api -fPIC \
+   no-idea no-mdc2 no-rc5 no-zlib no-ssl3 no-tests no-shared debug  &amp;&amp; \
+   make &amp;&amp; make install_sw )
+% (cd ruby-openssl &amp;&amp; rake install_dependencies )
+% (cd ruby-openssl &amp;&amp; rake compile -- --with-openssl-dir=/sandel/3rd/openssl-dtls-api )
+% ln -s ruby-openssl ruby-openssl-upstreamed
+% cd ../fountain &amp;&amp; bundle config set --local path 'vendor/bundle' &amp;&amp; bundle install &amp;&amp; bundle exec rake -T
+% cd ../highway &amp;&amp; bundle config set --local path 'vendor/bundle' &amp;&amp; bundle install &amp;&amp; bundle exec rake -T
+</code></pre></div></div>
+
+<p>Some minor bits of explanation.</p>
+
+<ol>
+  <li>
+    <p>The rails apps are configured to be able to use sqlite3 or postgresql, so both development libraries are installed.</p>
+  </li>
+  <li>
+    <p>For development a postgresql cluster is created in the local directory, so the system postgresql is not necessary to run.</p>
+  </li>
+  <li>
+    <p>For reasons unexplained, if one does “rake install_dependancies”, then gem tries to load dependancies via https, then discovers that it mysteriously does not have a HTTPS mechanism and gives up.  Installing “rake-compiler” as root first, seems to solve this.</p>
+  </li>
+  <li>
+    <p>The Gemfile references “ruby-openssl-upstreamed” for hysterical raisons, thus the symlink.</p>
+  </li>
+  <li>
+    <p>This uses the system supplied ruby executable, rather than an RVM one which was previously the best way.  The use of vendor/bundle does mean that duplicate gems may be installed, but on an R&amp;D machine, this is hardly a concern.</p>
+  </li>
+</ol>
+
+<p>The next article details setting up and testing each component.</p>
+
+<p><img src="/images/.svg" alt="Watch It Installed" /></p>
+
+:ET

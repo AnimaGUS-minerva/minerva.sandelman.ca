@@ -1,0 +1,22 @@
+I"Í<p>The Fountain JRC is a ruby-on-rails web application.</p>
+
+<p>It provides a domain owner with an end-point to which pledges apply for
+access.  It receives the (<a href="/terminology#raku">raku</a>) voucher request, stores
+and extracts the MASA URL.</p>
+
+<p>Fountain then reaches out to the indicated MASA, and submits a
+(<a href="/terminology#parboiled">parboiled</a>) voucher request to get an actual voucher.</p>
+
+<p>The voucher is relayed to the pledge.</p>
+
+<p>The release 0.90 of the Fountain JRC is capable of doing onboarding via HTTPS and enrolling the device using RFC7030 (EST), using RFC8366 (CMS-signed JSON) vouchers.</p>
+
+<p>Constrained vouchers are supported, but the DTLS support is poor at present.</p>
+
+<p>A VMDK format virtual machine is available.</p>
+
+<p><a href="https://github.com/AnimaGUS-minerva/fountain">Fountain is on github</a></p>
+
+<p>For details on configuring the JRC, see <a href="/fountain/configuration">Fountain Configuration</a></p>
+
+:ET

@@ -1,0 +1,42 @@
+I"!<p>This is another update to <a href="/containers/2018/10/20/minerva-in-lxd-form">Minerva in LXD form</a>.</p>
+
+<p>The 3rd highway image is at:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://minerva.sandelman.ca/qcow/0e745ddb6a22fa7e9a783215a8d9dcb81386972a6e7e54ee97b721cda79b070b.tar.gz
+lxc image import \
+0e745ddb6a22fa7e9a783215a8d9dcb81386972a6e7e54ee97b721cda79b070b.tar.gz \
+    --alias highway
+</code></pre></div></div>
+
+<p>This version adds a “rake highway:signcsr CSR=file.csr CERT=output.pem”,
+which will process a Certificate Signing Request, and produce an IDevID
+based upon the provided public key, and the requested serialNumber.</p>
+
+<p>A pre-existing instance of highway can be upgraded by running:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lxc highway -- su - highway
+highway@highway0:~$ curl https://minerva.sandelman.ca/qcow/highway-20181115025559.tgz | tar -C / --unlink -x -z -v -f -
+..
+</code></pre></div></div>
+
+<p>Verify that the current link was updated:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>highway@highway0:~$ ls -l current
+lrwxrwxrwx 1 highway highway 37 Nov 14 21:33 current -&gt; /home/highway/releases/20181115025559
+</code></pre></div></div>
+
+<p>Then run any migrations that there might be:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>highway@highway0:~$ cd current
+highway@highway0:~/current$ rake db:migrate
+== 20181113230344 AddCertificateToDevice: migrating ===========================
+-- add_column(:devices, :idevid_cert, :text)
+-&gt; 0.0050s
+== 20181113230344 AddCertificateToDevice: migrated (0.0060s) ==================
+</code></pre></div></div>
+
+<p>For details on configuring the MASA, see <a href="/highway/configuration">Highway Configuration</a></p>
+
+<p>For details on configuring the JRC, see <a href="/fountain/configuration">Fountain Configuration</a></p>
+
+:ET

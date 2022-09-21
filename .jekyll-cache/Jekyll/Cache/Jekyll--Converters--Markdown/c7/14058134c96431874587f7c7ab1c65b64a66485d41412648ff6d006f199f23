@@ -1,0 +1,41 @@
+I"�<p>The Minerva ecosystem consists of a number of components:</p>
+
+<ul>
+  <li>
+    <p><a href="/highway">highway</a> is the Minerva IDevID creator/signer, and the Manufacturer
+Authorized Signing Authority (masa).  It is run by the manufacturer to
+create the IDevID certificates, and as a public facing service to generate
+vouchers in response to signed voucher requests.</p>
+  </li>
+  <li>
+    <p><a href="/fountain">fountain</a> is the Minerva domain owner, the Join
+Registrar/Coordinator, and it also operates as an integrated Certification
+Authority, issuing LDevIDs to the new nodes.</p>
+  </li>
+  <li>
+    <p><a href="/chariwt">ChariWT</a> is a voucher library. It is used by all three other components
+to create and validate vouchers.  It can do so in PKCS7 signed JSON format,
+as well as JOSE signed JSON (JWS) and COSE signed CBOR (CWT).  It is named
+for the last format.  It is pronounced like “Chariot”, given a Welsh “W”,
+as CWT is pronounced ‘cot’.</p>
+  </li>
+  <li>
+    <p><a href="/reach">Reach</a> is a pledge simulator written in ruby, and intended to run
+in-vitro. It is used exclusively as a testing client, and is <em>not</em> intended
+for any production use.</p>
+  </li>
+  <li>
+    <p><a href="/pick">pick</a> is a component from the <a href="/unstrung">unstrung</a> RPL daemon, which
+is intended as a production client daemon.</p>
+  </li>
+  <li>
+    <p><a href="/unstrung">unstrung</a> is used as the RPL daemon within the [[ACP]]</p>
+  </li>
+  <li>
+    <p><a href="/openswanX">openswanX</a> is used as the IPsec daemon, creating the [[ACP]]</p>
+  </li>
+</ul>
+
+<p>The Minerva ecosystem does not as yet have a reference Proxy server.</p>
+
+:ET

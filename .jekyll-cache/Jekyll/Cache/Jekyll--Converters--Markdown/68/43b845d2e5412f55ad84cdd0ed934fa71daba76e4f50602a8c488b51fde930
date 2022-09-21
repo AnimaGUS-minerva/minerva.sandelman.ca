@@ -1,0 +1,4 @@
+I"Ö<p>You need to setup the config/database.yml with a connection to a valid
+database.  This is the case for both MASA (highway) and Registrar (fountain).
+You can use a local sqlite3 database with something like:</p>
+:ET

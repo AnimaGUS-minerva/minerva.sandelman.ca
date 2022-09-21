@@ -1,0 +1,74 @@
+I"�<p>Two instances of the Minerva Highway MASA have been set up.
+In keeping with the slightly Harry Potter naming theme the two instances are
+named “Wheezes” (after
+<a href="http://harrypotter.wikia.com/wiki/Weasleys%27_Wizard_Wheezes">Weasley’s Wizard Wheezes</a>),
+and “Honeydukes” (after
+<a href="http://harrypotter.wikia.com/wiki/Honeydukes">Honeydukes</a>.</p>
+
+<p>The shops do not sell real products.  Rather they simply provide the core
+of the product that we care about: the IDevID certificate <em>and</em> the private
+key.  Of course, a real system wouldn’t make the private key available like
+this, but this is a way to experiment.</p>
+
+<p>The products are named for incrementing EUI48 addresses.
+00d0e5 belongs to a failed dotcom mcr used to work for.</p>
+
+<p>A cronjob runs every two hours to make sure that there are at least five
+unsold items in the store, and to move sold items aside.</p>
+
+<p>Visit either:</p>
+<ul>
+  <li>https://honeydukes.sandelman.ca/</li>
+  <li>https://wheezes.sandelman.ca/</li>
+</ul>
+
+<p>and pick one of the zip files to download.  Instead you’ll find the key pair
+which can be used with your BRSKI client (you can simulate one with
+<a href="/reach">reach</a>).</p>
+
+<p>You will eventually need the masa_secp384r1.crt file in order to verify
+the voucher that is received.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd reach
+wget https://honeydukes.sandelman.ca/product_00-D0-E5-02-00-0A.zip
+unzip product_00-D0-E5-02-00-0A.zip
+mv 00-D0-E5-02-00-0A/device.crt db/cert/00-D0-E5-02-00-0A_prime256v1.crt
+mv 00-D0-E5-02-00-0A/key.pem db/private/00-D0-E5-02-00-0A_prime256v1.key
+rake reach:send_voucher_request IDEVID=00-D0-E5-02-00-0A JRC=https://fountain-test.sandelman.ca/
+</code></pre></div></div>
+
+<p>This will contact the JRC at the indicated address.  The Fountain JRC will
+see the request, extract the MASA URL from the IDevID, and may say something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Contacting server at: https://masa.honeydukes.sandelman.ca/.well-known/est/requestvoucher
+</code></pre></div></div>
+
+<p>On the pledge, I see:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obiwan-[projects/pandora/reach](2.4.1) mcr 10277 %rake reach:send_voucher_request IDEVID=00-D0-E5-02-00-0A JRC=https://fountain-test.sandelman.ca/
+rake aborted!
+Chariwt::Voucher::RequestFailedValidation: Chariwt::Voucher::RequestFailedValidation
+</code></pre></div></div>
+
+<p>The returned voucher is saved to tmp:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls tmp
+voucher_00-D0-E5-02-00-0A.pkcs  vr_00-D0-E5-02-00-0A.pkcs
+</code></pre></div></div>
+
+<p>The script bin/pkcs2json can be used to decode the result to JSON:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bin/pkcs2json tmp/voucher_00-D0-E5-02-00-0A.pkcs tmp/out1.txt
+Verification successful
+cat tmp/out1.txt
+{"ietf-voucher:voucher":{"assertion":"logged",
+"created-on":"2017-10-25T23:45:27.089+00:00",
+"serial-number":"00-D0-E5-02-00-0A",
+"nonce":"Dss99sBr3pNMOACe-LYY7w",
+"pinned-domain-cert":"MII...YRc3o="}}
+</code></pre></div></div>
+
+<p>At this point the Fountain JRC implementation does not do auditlog
+examination, and the next step (enrollment) is not implemented yet either.</p>
+
+:ET

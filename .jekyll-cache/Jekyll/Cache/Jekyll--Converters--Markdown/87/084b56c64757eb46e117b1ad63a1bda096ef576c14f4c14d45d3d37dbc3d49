@@ -1,0 +1,31 @@
+I"<p>The IETF ANIMA working group is named as:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"Autonomic Networking Integrated Model and Approach"
+</code></pre></div></div>
+
+<p>ANIMA has a goal:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Autonomic networking refers to the self-managing characteristics
+(configuration, protection, healing, and optimization) of distributed
+network elements, adapting to unpredictable changes while hiding
+intrinsic complexity from operators and users.
+[see the Charter](https://datatracker.ietf.org/wg/anima/about/)
+</code></pre></div></div>
+
+<p>Meanwhile, an Animagus is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>An Animagus (pl. Animagi) is a witch or wizard who can morph him or
+herself into an animal at will.     [wiki entry](http://harrypotter.wikia.com/wiki/Animagus)
+</code></pre></div></div>
+
+<p>While looking for a name that was related to “ANIMA”, the word “Animagus”
+came up.  It was thought, maybe one could call the project after some famour
+Animagus!  Maybe “Sirius Black” or “padfoot” (his name as a dog) would be a
+good name.  But, the most well known Animagus is Professor Minerva
+Mcgonagall.</p>
+
+<p>The name Minerva looked interested, and upon investigation, the name seemed
+associated with a lot of actual IoT-like things.  See the <a href="/info">info</a> entry
+for more links.</p>
+
+:ET

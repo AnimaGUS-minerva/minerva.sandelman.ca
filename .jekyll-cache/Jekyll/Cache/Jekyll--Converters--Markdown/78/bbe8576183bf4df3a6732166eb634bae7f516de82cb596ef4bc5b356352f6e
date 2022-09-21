@@ -1,0 +1,79 @@
+I"�<h2 id="highway-masa">Highway MASA</h2>
+
+<p>There are a few container images from 2018 which are still available, but they are rather old.
+For MASA (highway) images, the current best current practice is to use Capistrano.</p>
+
+<p>A method for deployment via Heroku is being developed.</p>
+
+<h2 id="fountain-registrar-as-a-vm">Fountain Registrar as a VM</h2>
+
+<p>There is an OVA container at https://minerva.sandelman.ca/qcow/fountain-20210502.ova
+It is 1.1G in size, and uses a thin-provisioned VMDK disk image, which can be as large as 8G, but is currently 3.4G in size (including swap).
+(It can be converted via qemu-img to QCOW format to be used with KVM or XEN)</p>
+
+<p>This image will boot up with the name “fountain”, and with the username “fountain”
+Root logins are currently disabled, please contact mcr@sandelman.ca for the fountain password.</p>
+
+<p>The image should be run with a <em>bridged</em> network interface to your LAN.
+It will use mDNS (avahi) to announce the name “fountain.local”, and the system can be tested for correct operation by doing:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -k https://fountain.local:8443/version.json
+</code></pre></div></div>
+
+<p>Once logged in, you will find that the application has been installed in /app/fountain.</p>
+
+<p>The logs are in /app/fountain/production.log</p>
+
+<p>The application is started in crontab using the @reboot method.</p>
+
+<p>There are certificates and private keys already generated, which are stored in /app/certificates.   This has been to make your life easier: they should be replaced in any non-testing installtion.</p>
+
+<p>In the home directory, /home/fountain, there is a script “fnt.sh” (a work in progress),
+which is used to customize an empty devuan base image.
+This image is supposed to apply security updates on it’s own.</p>
+
+<p>The files /home/fountain/.ssh/authorized_keys contain keys that allow logins from Sandelman Software Works.  Remove these or comment them out if you don’t want help.
+Add your keys so that you can login with ssh.</p>
+
+<h3 id="testing">Testing</h3>
+
+<p>BRSKI client has been installed in this VM.
+It is located at /home/fountain/reach.</p>
+
+<p>To run the test, it is suggested to login in two windows.
+In the first window, run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tail --follow=name -f /app/logs/production.log
+</code></pre></div></div>
+
+<p>In the second window, do:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ~/reach/spec/files/product/00-D0-E5-02-00-39
+./voucher.sh
+</code></pre></div></div>
+
+<p>The files in that directory are:</p>
+
+<ul>
+  <li>device.crt: the IDevID certificate</li>
+  <li>key.pem: the private key associated with the IDevID</li>
+  <li>honeydukes.txt: a placeholder to say that this came from honeydukes.sandelman.ca</li>
+  <li>masa.crt: the trust anchor associated with signing vouchers</li>
+  <li>vendor.crt: the trust anchor that signs IDevIDs</li>
+</ul>
+
+<p>These files can be used with real pledge code by installing them into the pledge.
+Normally, the private key would be transported securely from the MASA (or other PKI infrastructure which created it) into the device, or generated on the device itself.
+See https://datatracker.ietf.org/doc/draft-richardson-t2trg-idevid-considerations/ for many more considerations around this.</p>
+
+<p>In the above test, the pledge reaches out to the local JRC (Registrar), submits a voucher-request.  The JRC then reaches out to the MASA listed in the IDevID extension,
+and submits a (parboiled) voucher-request.</p>
+
+<p>A voucher is then returned from the MASA, logged, and then returned to the pledge.</p>
+
+<p>The pledge then does an RFC7030 EST enrollment.</p>
+
+<p>Some missing parts: the  section 5.7 telemetry operation is not yet completed, nor is the section 5.9.4 enrollment status telemetry.
+This Registrar does not examine the audit log from the MASA either.</p>
+
+:ET

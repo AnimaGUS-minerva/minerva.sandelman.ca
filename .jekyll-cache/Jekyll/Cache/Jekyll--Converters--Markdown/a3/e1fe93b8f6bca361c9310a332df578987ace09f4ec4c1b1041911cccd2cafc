@@ -1,0 +1,48 @@
+I"u
+<p>Minerva is built upon the <a href="https://datatracker.ietf.org/wg/anima/">IETF ANIMA WG</a> specifications.</p>
+
+<p>The following documents detail how things work together.</p>
+
+<p>Please see <a href="https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-1.2">Terminology</a> and [Protocol flow from BRSKI)[https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-2.4] for an explanation of the terms MASA, JRC, and Pledge.</p>
+
+<ul>
+  <li>
+    <p>The Manufacturer creates new devices and places IDevID certificates into the devices at production time.</p>
+
+    <p>IDevID certificates are defined in
+  <a href="http://www.ieee802.org/1/pages/802.1ar.html">IEEE 802.1AR</a>.</p>
+
+    <p><a href="https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-2.3">BRSKI</a>
+  provides a bit more detail as to which IDevID options, and provides for a URL to be included
+  for the MASA service.</p>
+  </li>
+  <li>
+    <p>The Domain owner runs the Join Registrar/Coordinator (JRC) function.</p>
+
+    <p>This function is describe in <a href="https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-5.4">BRSKI</a>
+  The domain owner’s Registrar either contains a Certificate Authority, or it communicates with one using <a href="https://tools.ietf.org/html/rfc5272#section-7">RFC5272 section 7</a> (updated by <a href="https://tools.ietf.org/html/rfc6402">RFC6402</a>).</p>
+
+    <p>In the ANIMA context, the Registrar also provides input to the Distinguished
+  name that the Pledge uses.</p>
+  </li>
+  <li>
+    <p>The pledge is the new device which is attempting to join an existing network.</p>
+
+    <p>The operation of the pledge is described in <a href="https://tools.ietf.org/html/draft-ietf-anima-bootstrapping-keyinfra-08#section-5.2">BRSKI</a>.</p>
+
+    <p>Once the pledge trusts the registrar and the registrar trusts the pledge, then
+  the pledge enrolls a certificate using <a href="https://tools.ietf.org/html/rfc6402">EST</a>.
+  This is done within the TLS connection that was used for imprinting.</p>
+  </li>
+  <li>
+    <p>Once enrolled the Pledge operates as a regular node, and in an ISP context, it will create one or more tunnels to adjacent nodes in the same domain.</p>
+
+    <p>Within these <a href="https://tools.ietf.org/html/rfc7296">IPsec</a> IPIP tunnels, the
+  <a href="https://tools.ietf.org/html/rfc6550">ROLL</a> routing protocol is used in
+  storing mode to establish connectivity.</p>
+  </li>
+</ul>
+
+<p>This process is described in the <a href="https://tools.ietf.org/html/draft-ietf-anima-autonomic-control-plane-12">Autonomic Control Plane</a> document.</p>
+
+:ET

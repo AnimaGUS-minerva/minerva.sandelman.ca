@@ -1,0 +1,166 @@
+I"�-<p>The Highway Manufacturer Authorized Signing Authority (MASA) is an RFC8995 compliant BRSKI-MASA server.  It includes support for both RFC8366 vouchers, and COSE/CBOR based constrained vouchers.</p>
+
+<p>It is designed to be deployed into a three-tier application framework with a front-end like Passenger, and a Postgres database backend.  It is available in the form of LXC, VMDK, and docker images, as well as as virtual appliance format.</p>
+
+<p>This guide does not describe how to do production deployment, but rather how to set it up for R&amp;D work.   In such a configuration it runs as a single threaded foreground process answering HTTPS requests on localhost using a unique port number.</p>
+
+<p>In many other systems, the HTTPS and certificate aspect of the system is not an essential part of the mechanism and R&amp;D uses can often skip that.
+This is not the case for BRSKI: the security mechanisms are woven into the protocol and so getting them all setup correctly is essential for correct usage.</p>
+
+<p>Assuming that the code has been installed in <code class="language-plaintext highlighter-rouge">/someplace/highway</code> as described in
+<a href="/openssl/2022/06/09/building-local-minerva.html">Minerva Highway MASA and Fountain JRC local configuration use</a>, then a test case situation is configured easily using the included <code class="language-plaintext highlighter-rouge">can-o-pg</code> present in the <code class="language-plaintext highlighter-rouge">etc</code> submodule.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>% cd /someplace/highway/
+% make
+</code></pre></div></div>
+
+<p>This step should locate the postgresql server executable and then initialize a postgresql cluster in the directory <code class="language-plaintext highlighter-rouge">run/dbcluster</code>.  The command <code class="language-plaintext highlighter-rouge">make stop</code> will stop the cluster, and the command <code class="language-plaintext highlighter-rouge">make clean</code> will completely remove it.</p>
+
+<p>If you get an error</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WHERE IS POSTGRESQL/initdb --encoding=utf8 -D /someplace/highway/run/dbcluster
+</code></pre></div></div>
+
+<p>then the scripts failed to find an installed version of postgresql 9,10,11,12,13,14.</p>
+
+<p>To complete the template installation, copy the generated database.yml:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>% cp etc/database.yml ./config/database.yml
+</code></pre></div></div>
+
+<p>Update the database schema and run the test cases:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>% bundle exec rake db:migrate
+% bundle exec rake spec
+</code></pre></div></div>
+
+<p>Note that you say messages like: “Running MCR modified Jun 12 2022!” (but with the date you built openssl).  This is just some debugging to make sure that the correct openssl library has been used.</p>
+
+<p>As of 2022-06-12, you may see a single “1 failure” for a pending test that should have failed but which did not.  There are also 9 incomplete tests marked pending.</p>
+
+<p>A MASA is a web service that provides authorization for a transfer of ownership of the (IoT) device
+to the entity (an enterprise or home owner) which is operating the proximate Registrar.
+There are many more details in RFC8366.
+The MASA must is contacted by the Registrar over HTTPS.  The Registrar finds the MASA by examining the IDevID certificate that is presented by the device.
+This requires coordination of a number of things: the MASA must have a name, the name must map to an IP address that the Registrar can reach, and the device must have an IDevID certificate that the MASA had a part in creating.</p>
+
+<p>The Highway MASA can manage all this coordination through a series of rake tasks:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>% rake -T
+...
+rake highway:h0_set_hostname            # Do initial setup of system variables, ...
+rake highway:h0_setup_masa              # Do initial setup of sytem variables
+rake highway:h0_shg_zone                # Do initial setup of shg_zone and prefix:..
+rake highway:h1_bootstrap_ca            # Create initial self-signed CA certificate,..
+rake highway:h2_bootstrap_masa          # Create a certificate for the MASA to sign ..
+rake highway:h3_bootstrap_mud           # Create a certificate for the MASA to sign ..
+rake highway:h4_masa_letsencrypt        # Ask LetsEncrypt for server certificate
+rake highway:h4_masa_server_cert        # Create a certificate for the MASA web ..
+rake highway:h5_idevid_ca               # Create a suborbinate CA for signing ..
+rake highway:inventory                  # Maintain inventory of devices to buy, ..
+rake highway:list_dev                   # List all devices with their state
+rake highway:mud_json_sign              # Sign a MUD json FILE=in.json ...
+rake highway:obsolete                   # Obsolete PRODUCTID=00-11-22-33-44-55
+rake highway:signcsr                    # Create an IDevID certificate based ..
+rake highway:signmic                    # Sign a IDevID certificate for a new ...
+rake highway:signvoucher                # Sign voucher for device EUI64= to ...
+rake highway:updatecert                 # Given a device by PRODUCTID=xxx, resign the IDevID
+...
+</code></pre></div></div>
+
+<p>To facilitate testing and R&amp;D work, the highway repo comes with a full set of configured objects and database entries in the form of fixtures.
+Fixtures are normally only loaded for testing, but they can be loaded into the development profile with:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>% bundle exec rake db:fixtures:load
+</code></pre></div></div>
+
+<p>(ps: the use of “bundle exec” as a prefix is part of the rails/ruby/gem ecosystem that makes that each project uses the dependancies that are specified in the Gemfile and Gemfile.lock)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minerva@jiggers:/someplace/highway$ bundle exec rake highway:list_dev
+Running MCR modified Jun 12 2022!
+             PRODUCTID                       EUI64 status
+         JADA_f2-00-01:          00-d0-e5-f2-00-01 unowned
+                 12345:          00-d0-e5-f2-00-01 obsolete
+     00-D0-E5-F2-00-02:          00-d0-e5-f2-00-02 unowned
+      081196FFFE0181E0:    08-11-96-ff-fe-01-81-e0 owned by /DC=ca/DC=sandelman/CN=fountain-test.example.com domain authority
+     00-D0-E5-F2-00-03:          00-d0-e5-f2-00-03 owned by /DC=ca/DC=sandelman/CN=fountain-test.example.com domain authority
+     00-D0-E5-F2-10-03:          00-d0-e5-f2-10-03 owned by /DC=ca/DC=sandelman/CN=fountain-test.example.com domain authority
+     00-16-3e-8d-51-9b:          00-16-3e-8d-51-9b unowned
+     d8-58-d7-00-8d-0f:          d8-58-d7-00-8d-0f unowned
+     00-D0-E5-E0-00-0F:          00-d0-e5-e0-00-0f unowned
+     00-D0-E5-F2-00-05:          00-d0-e5-f2-00-05 unowned
+     3c-97-0e-b9-cd-98:          3c-97-0e-b9-cd-98 unowned
+     3c-97-0e-b9-cd-9a:          3c-97-0e-b9-cd-9a unowned
+     3c-97-0e-9b-dc-98:          3c-97-0e-9b-dc-98 unowned
+     00-d0-e5-02-00-2d:          00-d0-e5-02-00-2d owned by /C=CA/ST=Ontario/L=Ottawa/O=Owner Example One/OU=Not Very/CN=owner1.example.com/emailAddress=owner1@example.com
+     00-D0-E5-03-00-03:          00-d0-e5-03-00-03 owned by /DC=ca/DC=sandelman/CN=fountain-test.example.com domain authority
+     00-D0-E5-03-00-03:          3C-97-1E-9B-AB-46 owned by /DC=ca/DC=sandelman/CN=fountain-test.example.com domain authority
+          dockerTest01:          00-d0-e5-02-00-02 unowned
+</code></pre></div></div>
+
+<p>Start the server locally on port 9443 using:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minerva@jiggers:/someplace/highway$ RAILS_ENV=development bin/server &amp;
+[1] 5096
+minerva@jiggers:/someplace/highway$ bin/server: line 5: /etc/profile.d/rvm.sh: No such file or directory
+bin/server: line 6: rvm: command not found
+RUNNING in /someplace/highway
+Running MCR modified Jun 12 2022!
+2022-06-12 23:34:30 -0400 Using rack adapter
+2022-06-12 23:34:34 -0400 Thin web server (v1.8.1 codename Infinite Smoothie)
+2022-06-12 23:34:34 -0400 Maximum connections set to 1024
+2022-06-12 23:34:34 -0400 Listening on :::9443, CTRL+C to stop
+</code></pre></div></div>
+
+<p>Install curl if you do not already have it:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo apt-get install curl
+</code></pre></div></div>
+
+<p>And then check out the version and status.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>% curl -k https://localhost:9443/version.json; echo
+{"version":"1.1.0","revision":"devel","Hostname":"highway-test.example.com"}
+
+$ curl -k https://localhost:9443/status.json ; echo
+{"Devices":17,"Inventory":11,"Owners":5,"Vouchers":7,"Hostname":"highway-test.example.com","Requests":6}
+</code></pre></div></div>
+
+<p>Note that while one can use localhost:9443 in the IDevID certificates, it’s very confusing.
+Edit /etc/hosts to read:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mcr@jiggers:/someplace/minerva/ruby-openssl$ cat /etc/hosts
+127.0.0.1       localhost       highway-test.example.com fountain-test.example.com
+...
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ curl -k https://highway-test.example.com:9443/status.json; echo
+{"Devices":17,"Inventory":11,"Owners":5,"Vouchers":7,"Hostname":"highway-test.example.com","Requests":6}
+</code></pre></div></div>
+
+<p>Note that -k is still needed to turn off certification validation in curl, because the certificate that is used comes from a private certification authority.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minerva@jiggers:/someplace/highway$ openssl s_client -connect highway-test.example.com:9443
+CONNECTED(00000003)
+depth=0 C = Canada, ST = Ontario, OU = Sandelman, CN = highway-test.example.com
+verify error:num=20:unable to get local issuer certificate
+verify return:1
+depth=0 C = Canada, ST = Ontario, OU = Sandelman, CN = highway-test.example.com
+verify error:num=21:unable to verify the first certificate
+verify return:1
+depth=0 C = Canada, ST = Ontario, OU = Sandelman, CN = highway-test.example.com
+verify error:num=10:certificate has expired
+notAfter=Feb 11 22:23:20 2021 GMT
+verify return:1
+depth=0 C = Canada, ST = Ontario, OU = Sandelman, CN = highway-test.example.com
+notAfter=Feb 11 22:23:20 2021 GMT
+verify return:1
+---
+Certificate chain
+ 0 s:C = Canada, ST = Ontario, OU = Sandelman, CN = highway-test.example.com
+   i:C = Canada, ST = Ontario, OU = Sandelman, CN = highway-test.example.com CA
+</code></pre></div></div>
+
+<p>Note that there is built-in support for acquiring a public certificate from LetsEncrypt using a dns-01 challenge, but that it requires RFC3007 (Dynamic DNS) access to the zone that you want host into.
+A future version will include http-01 challenge support.</p>
+
+<p>https://minerva.sandelman.ca/highway/configuration/ explains some of the hX setup tools that can be used to setup a production instance.  In that case the use of the LXC container has been assumed.</p>
+
+:ET

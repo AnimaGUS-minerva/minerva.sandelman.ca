@@ -1,0 +1,219 @@
+Script started on Tue 30 Oct 2018 08:43:28 AM EDT
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[J[7mobiwan[27m-[pandora/www/_posts](2.4.1) [4mmcr[24m [1m10001[0m %[K[?1h=[?2004hsssh -A highway@florean.sandelman.ca[?1l>[?2004l
+X11 forwarding request failed on channel 0
+Welcome to Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-36-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Oct 30 12:43:43 UTC 2018
+
+  System load:    0.16      Processes:           31
+  Usage of /home: unknown   Users logged in:     0
+  Memory usage:   7%        IP address for eth0: 172.30.3.27
+  Swap usage:     1%
+
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+20 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Sun Oct 14 15:44:38 2018 from 2607:f0b0:f:2::247
+]0;highway@florean: ~highway@florean:~$ ps axf
+  PID TTY      STAT   TIME COMMAND
+    1 ?        Ss     0:10 /sbin/init
+   58 ?        Ss     0:01 /lib/systemd/systemd-udevd
+   63 ?        Ss     0:08 /lib/systemd/systemd-journald
+  167 ?        Ss     0:07 /lib/systemd/systemd-networkd
+  188 ?        Ssl    0:17 /usr/lib/accountsservice/accounts-daemon
+  190 ?        Ssl    0:00 /usr/bin/python3 /usr/bin/networkd-dispatcher --run-startup-triggers
+  192 ?        Ss     0:00 /usr/sbin/atd -f
+  194 ?        Ss     0:03 /usr/sbin/cron -f
+  197 ?        Ssl    0:40 /usr/lib/snapd/snapd
+  198 ?        Ss     0:01 /lib/systemd/systemd-logind
+  202 ?        Ssl    0:01 /usr/sbin/rsyslogd -n
+  203 ?        Ss     0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-a
+  212 ?        Ss     0:00 /usr/sbin/sshd -D
+15291 ?        Ss     0:00  \_ sshd: highway [priv]
+15372 ?        S      0:00      \_ sshd: highway@pts/0
+15373 pts/0    Ss     0:00          \_ -bash
+15454 pts/0    R+     0:00              \_ ps axf
+  217 ?        Ss+    0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 vt220
+  218 ?        Ssl    0:00 /usr/lib/policykit-1/polkitd --no-debug
+  253 ?        S      0:34 /usr/lib/postgresql/10/bin/postgres -D /var/lib/postgresql/10/main -c config_file
+  260 ?        Ss     0:00  \_ postgres: 10/main: checkpointer process   
+  261 ?        Ss     0:14  \_ postgres: 10/main: writer process   
+  262 ?        Ss     0:13  \_ postgres: 10/main: wal writer process   
+  263 ?        Ss     0:20  \_ postgres: 10/main: autovacuum launcher process   
+  264 ?        Ss     0:24  \_ postgres: 10/main: stats collector process   
+  265 ?        Ss     0:00  \_ postgres: 10/main: bgworker: logical replication launcher   
+ 9227 ?        Ss     0:00 /lib/systemd/systemd --user
+ 9228 ?        S      0:00  \_ (sd-pam)
+11396 ?        Ss     0:00 dhclient eth0
+15289 ?        Ss     0:00 /lib/systemd/systemd-resolved
+]0;highway@florean: ~highway@florean:~$ bin/[Kcd high[K[K[K[Kcurrent
+]0;highway@florean: ~/currenthighway@florean:~/current$ ls
+[0m[01;34mapp[0m                     [01;34mconfig[0m        [01;32mcurltest2.sh[0m  Gemfile.lock  [40;31;01mMakefile[0m   [01;34mspec[0m
+[01;34massets_manifest_backup[0m  config.ru     [01;34mdb[0m            httpd.conf    [01;34mpublic[0m     [01;34mtest[0m
+[01;34mbin[0m                     curlreq.json  [01;34mdoc[0m           [01;34mlib[0m           Rakefile   [01;36mtmp[0m
+can-o-pg.settings       [01;32mcurltest0.sh[0m  [01;34metc[0m           LICENSE.md    README.md  [01;32mvalidate_cms_keys[0m
+Capfile                 [01;32mcurltest1.sh[0m  Gemfile       [01;36mlog[0m           REVISION
+]0;highway@florean: ~/currenthighway@florean:~/current$ rake -T
+
+Command 'rake' not found, but can be installed with:
+
+apt install rake
+Please ask your administrator.
+
+]0;highway@florean: ~/currenthighway@florean:~/current$ vi ~/.profile
+[?2004h[?1049h[22;0;0t[?1h=[?2004h[1;51r[?12h[?12l[27m[23m[29m[m[H[2J[?25l[51;1H"~/.profile" 29L, 836C[2;1H▽[6n[2;1H  [1;1H[>c]10;?]11;?[1;1H[34m# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash[m
+[33mif [[m [33m-n[m [33m"[m[35m$BASH_VERSION[m[33m"[m [33m];[m [33mthen[m
+    [34m# include .bashrc if it exists[m
+    [33mif [[m [33m-f[m [33m"[m[35m$HOME[m[31m/.bashrc[m[33m"[m [33m];[m [33mthen
+        . "[m[35m$HOME[m[31m/.bashrc[m[33m"
+[m    [33mfi
+fi[m
+
+[34m# set PATH so it includes user's private bin if it exists[m
+[33mif [[m [33m-d[m [33m"[m[35m$HOME[m[31m/bin[m[33m"[m [33m][m [33m;[m [33mthen[m
+    [36mPATH[m=[33m"[m[35m$HOME[m[31m/bin:[m[35m$PATH[m[33m"
+fi[m
+
+[34m# set PATH so it includes user's private bin if it exists[m
+[33mif [[m [33m-d[m [33m"[m[35m$HOME[m[31m/.local/bin[m[33m"[m [33m][m [33m;[m [33mthen[m
+    [36mPATH[m=[33m"[m[35m$HOME[m[31m/.local/bin:[m[35m$PATH[m[33m"
+fi
+
+export[m[36m RAILS_ENV=production[m
+[1m[34m~                                                                                                           [31;1H~                                                                                                           [32;1H~                                                                                                           [33;1H~                                                                                                           [34;1H~                                                                                                           [35;1H~                                                                                                           [36;1H~                                                                                                           [37;1H~                                                                                                           [38;1H~                                                                                                           [39;1H~                                                                                                           [40;1H~                                                                                                           [41;1H~                                                                                                           [42;1H~                                                                                                           [43;1H~                                                                                                           [44;1H~                                                                                                           [45;1H~                                                                                                           [46;1H~                                                                                                           [47;1H~                                                                                                           [48;1H~                                                                                                           [49;1H~                                                                                                           [50;1H~                                                                                                           [m[51;91H29,27[9CAll[29;27H[?25hP+q436f\P+q6b75\P+q6b64\P+q6b72\P+q6b6c\P+q2332\P+q2334\P+q2569\P+q2a37\P+q6b31\P$q q\[?12$p[27m[23m[29m[m[H[2J[?25l[1;1H[1m[36m# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
+# exists.
+# see /usr/share/doc/bash/examples/startup-files for examples.
+# the files are located in the bash-doc package.
+
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+#umask 022
+
+# if running bash[m
+[1m[33mif [[m [1m[33m-n[m [1m[33m"[m[1m[34m$BASH_VERSION[m[1m[33m"[m [1m[33m];[m [1m[33mthen[m
+    [1m[36m# include .bashrc if it exists[m
+    [1m[33mif [[m [1m[33m-f[m [1m[33m"[m[1m[34m$HOME[m[1m[35m/.bashrc[m[1m[33m"[m [1m[33m];[m [1m[33mthen
+        . "[m[1m[34m$HOME[m[1m[35m/.bashrc[m[1m[33m"
+[m    [1m[33mfi
+fi[m
+
+[1m[36m# set PATH so it includes user's private bin if it exists[m
+[1m[33mif [[m [1m[33m-d[m [1m[33m"[m[1m[34m$HOME[m[1m[35m/bin[m[1m[33m"[m [1m[33m][m [1m[33m;[m [1m[33mthen[m
+    [1m[36mPATH[m=[1m[33m"[m[1m[34m$HOME[m[1m[35m/bin:[m[1m[34m$PATH[m[1m[33m"
+fi[m
+
+[1m[36m# set PATH so it includes user's private bin if it exists[m
+[1m[33mif [[m [1m[33m-d[m [1m[33m"[m[1m[34m$HOME[m[1m[35m/.local/bin[m[1m[33m"[m [1m[33m][m [1m[33m;[m [1m[33mthen[m
+    [1m[36mPATH[m=[1m[33m"[m[1m[34m$HOME[m[1m[35m/.local/bin:[m[1m[34m$PATH[m[1m[33m"
+fi
+
+export[m[1m[36m RAILS_ENV=production[m
+[1m[34m~                                                                                                           [31;1H~                                                                                                           [32;1H~                                                                                                           [33;1H~                                                                                                           [34;1H~                                                                                                           [35;1H~                                                                                                           [36;1H~                                                                                                           [37;1H~                                                                                                           [38;1H~                                                                                                           [39;1H~                                                                                                           [40;1H~                                                                                                           [41;1H~                                                                                                           [42;1H~                                                                                                           [43;1H~                                                                                                           [44;1H~                                                                                                           [45;1H~                                                                                                           [46;1H~                                                                                                           [47;1H~                                                                                                           [48;1H~                                                                                                           [49;1H~                                                                                                           [50;1H~                                                                                                           [m[51;91H29,27[9CAll"~/.profile" 29L, 836C[29;27H[?25h[?25l[51;81H:[29;27H[51;1H[K[51;1H:[?2004h[?25h$[?25l[?25h[?25l[29;1H[51;91H29,1[10CAll[29;1H[?25h[?25l[51;81Ho[29;1H[51;81H [30;1H[51;1H[1m-- INSERT --[m[51;91H[K[51;91H30,1[10CAll[30;1H[K[30;1H[?25h[?25lr[51;94H2[30;2H[?25h[?25lv[51;94H3[30;3H[?25h[?25lm[51;94H4[30;4H[?25h[?25l[51;94H5[30;5H[?25h[?25lu[51;94H6[30;6H[?25h[?25ls[51;94H7[30;7H[?25h[?25le[51;94H8[30;8H[?25h[?25l[51;94H9[30;9H[?25h[?25l[1m[35m2[m[51;94H10[30;10H[?25h[?25l.[51;95H1[30;11H[?25h[?25l[1m[35m5[m[51;95H2[30;12H[?25h[?25l.[51;95H3[30;13H[?25h[?25l[1m[35m1[m[51;95H4[30;14H[?25h[51;1H[K[30;13H[?25l[51;81H^[[30;13H[51;81H  [30;14H[51;91H30,13[9CAll[30;13H[?25h[?25l[51;81HO[30;13H[51;81H [30;1H[51;1H[1m-- INSERT --[m[51;91H[K[51;91H30,1[10CTop[30;50r[30;1H[L[1;51r[51;91H[K[51;91H30,1[10CAll[30;1H[?25h[?25l.[51;94H2[30;2H[?25h[?25l[1m[33m. [m[51;94H3[30;3H[?25h[?25l/[51;94H4[30;4H[?25h[?25le[51;94H5[30;5H[?25h[?25lt[51;94H6[30;6H[?25h[?25lc[51;94H7[30;7H[?25h[?25l/[51;94H8[30;8H[?25h[?25lp[51;94H9[30;9H[?25h[?25lr[51;94H10[30;10H[?25h[?25lo[51;95H1[30;11H[?25h[?25lf[51;95H2[30;12H[?25h[?25li[51;95H3[30;13H[?25h[?25ll[51;95H4[30;14H[?25h[?25le[51;95H5[30;15H[?25h[?25l.[51;95H6[30;16H[?25h[?25ld[51;95H7[30;17H[?25h[?25l.[51;95H8[30;18H[?25h[?25l[30;17H[K[51;95H7[30;17H[?25h[?25l/[51;95H8[30;18H[?25h[?25lr[51;95H9[30;19H[?25h[?25lv[51;94H20[30;20H[?25h[?25lm[51;95H1[30;21H[?25h[?25l.[51;95H2[30;22H[?25h[?25ls[51;95H3[30;23H[?25h[?25lh[51;95H4[30;24H[?25h[51;1H[K[30;23H[?25l[51;81H^[[30;23H[51;81H  [30;24H[51;91H30,23[9CAll[30;23H[?25h[?25l[51;81H:[30;23H[51;81H[K[51;1H:[?2004h[?25hw[?25l[?25hq[?25l[?25h[?25l[?2004l"~/.profile" 31L, 874C written
+[?2004l[?1l>[?25h[?1049l[23;0;0t]0;highway@florean: ~/currenthighway@florean:~/current$ exit
+logout
+Connection to florean.sandelman.ca closed.
+[1m[7m%[27m[1m[0m                                                                                                            [0m[27m[24m[J[7mobiwan[27m-[pandora/www/_posts](2.4.1) [4mmcr[24m [1m10002[0m %[K[?1h=[?2004hssh -A highway@florean.sandelman.ca[?1l>[?2004l
+X11 forwarding request failed on channel 0
+Welcome to Ubuntu 18.04.1 LTS (GNU/Linux 4.15.0-36-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Oct 30 12:44:38 UTC 2018
+
+  System load:    0.14      Processes:           31
+  Usage of /home: unknown   Users logged in:     0
+  Memory usage:   8%        IP address for eth0: 172.30.3.27
+  Swap usage:     1%
+
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+20 packages can be updated.
+0 updates are security updates.
+
+
+Last login: Tue Oct 30 12:43:43 2018 from 2607:f0b0:f:2::247
+Using /usr/share/rvm/gems/ruby-2.5.1
+]0;highway@florean: ~highway@florean:~$ cd current
+]0;highway@florean: ~/currenthighway@florean:~/current$ rake -T
+/home/highway/shared/bundle/ruby/2.5.0/gems/cow_proxy-0.2.0/lib/cow_proxy.rb:131: warning: constant ::Fixnum is deprecated
+/home/highway/shared/bundle/ruby/2.5.0/gems/cow_proxy-0.2.0/lib/cow_proxy.rb:134: warning: constant ::Bignum is deprecated
+rake about                              # List versions of all Rails frameworks and the environment
+rake app:template                       # Applies the template supplied by LOCATION=(/path/to/template)...
+rake app:update                         # Update configs and some other initially generated files (or u...
+rake assets:clean[keep]                 # Remove old compiled assets
+rake assets:clobber                     # Remove compiled assets
+rake assets:environment                 # Load asset compile environment
+rake assets:precompile                  # Compile all the assets named in config.assets.precompile
+rake brakeman:check                     # Check your code with Brakeman
+rake brakeman:run[output_files]         # Run Brakeman
+rake cache_digests:dependencies         # Lookup first-level dependencies for TEMPLATE (like messages/s...
+rake cache_digests:nested_dependencies  # Lookup nested dependencies for TEMPLATE (like messages/show o...
+rake db:create                          # Creates the database from DATABASE_URL or config/database.yml...
+rake db:drop                            # Drops the database from DATABASE_URL or config/database.yml f...
+rake db:environment:set                 # Set the environment value for the database
+rake db:fixtures:load                   # Loads fixtures into the current environment's database
+rake db:migrate                         # Migrate the database (options: VERSION=x, VERBOSE=false, SCOP...
+rake db:migrate:status                  # Display status of migrations
+rake db:rollback                        # Rolls the schema back to the previous version (specify steps ...
+rake db:schema:cache:clear              # Clears a db/schema_cache.dump file
+rake db:schema:cache:dump               # Creates a db/schema_cache.dump file
+rake db:schema:dump                     # Creates a db/schema.rb file that is portable against any DB s...
+rake db:schema:load                     # Loads a schema.rb file into the database
+rake db:seed                            # Loads the seed data from db/seeds.rb
+rake db:setup                           # Creates the database, loads the schema, and initializes with ...
+rake db:structure:dump                  # Dumps the database structure to db/structure.sql
+rake db:structure:load                  # Recreates the databases from the structure.sql file
+rake db:version                         # Retrieves the current schema version number
+rake dev:cache                          # Toggle development mode caching on/off
+rake highway:bootstrap_mud              # Create a certificate for the MASA to sign MUD objects
+rake highway:h0_setup_masa              # Do initial setup of sytem variables
+rake highway:h1_bootstrap_ca            # Create initial self-signed CA certificate, or resign existing...
+rake highway:h2_bootstrap_masa          # Create a certificate for the MASA to sign vouchers with
+rake highway:h3_bootstrap_mud           # Create a certificate for the MASA to sign MUD objects
+rake highway:h4_masa_server_cert        # Create a certificate for the MASA web interface (EST) to answ...
+rake highway:inventory                  # Maintain inventory of devices to buy, INVENTORY=count
+rake highway:mud_json_sign              # Sign a MUD json file
+rake highway:obsolete                   # Obsolete PRODUCTID=00-11-22-33-44-55
+rake highway:signmic                    # Sign a IDevID certificate for a new device, EUI64=xx
+rake highway:signvoucher                # Sign voucher for device EUI64= to OWNER_ID=xx, with optional ...
+rake initializers                       # Print out all defined initializers in the order they are invo...
+rake log:clear                          # Truncates all/specified *.log files in log/ to zero bytes (sp...
+rake middleware                         # Prints out your Rack middleware stack
+rake notes                              # Enumerate all annotations (use notes:optimize, :fixme, :todo ...
+rake notes:custom                       # Enumerate a custom annotation, specify with ANNOTATION=CUSTOM
+rake raven:test[dsn]                    # Send a test event to the remote Sentry server
+rake restart                            # Restart app by touching tmp/restart.txt
+rake routes                             # Print out all defined routes in match order, with names
+rake secret                             # Gen

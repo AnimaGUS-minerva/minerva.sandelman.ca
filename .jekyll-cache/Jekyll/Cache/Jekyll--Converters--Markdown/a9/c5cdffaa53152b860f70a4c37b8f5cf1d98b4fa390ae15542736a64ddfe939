@@ -1,0 +1,126 @@
+I"û<p>A VirtualBox VMDK format VM in OVA format is available, please see .
+This assumes you are running the Fountain JRC in a container, but if you are
+running it as a full VM, then you will login via ssh.</p>
+
+<p>Login:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh fountain@eeylops
+</code></pre></div></div>
+
+<p>or:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lxc exec fountain -- su fountain
+
+cd fountain/current
+</code></pre></div></div>
+
+<p>List of tasks:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rake -T | grep fountain
+</code></pre></div></div>
+
+<p>When running rake comments, you may see an annoying warning:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>...cow_proxy-0.2.0/lib/cow_proxy.rb:131: warning: constant ::Fixnum is deprecated
+</code></pre></div></div>
+
+<p>These are benign, although annoying.</p>
+
+<h1 id="rake-fountains0_setup_jrc">rake fountain:s0_setup_jrc</h1>
+<p>summary: Do initial setup of sytem variables</p>
+
+<p>This should be run once after installation.  It is interactive.
+It first prints out the list of the current variables, and then will ask a
+series of questions and store the result into a database table devoted to
+configuration information.  Hitting enter will accept the previous value.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fountain@fountain1:~/fountain/current$ rake fountain:s0_setup_jrc
+Set initial serial number(default 0): 2356
+Hostname for this instance(default ): gambol.sandelman.ca
+serialnumber: 2356
+hostname:  gambol.sandelman.ca
+</code></pre></div></div>
+
+<p>The first question is what the hostname for this instance will be.
+The hostname will be placed into the generated certificate for HTTPS
+and COAPS connections.  Whether or not this is critical depends upon
+whether the pledge libraries validate the name.</p>
+
+<p>The serial number should be a random number. It is used for generating
+a certificate with the above name.  It will be randomized in a future
+version.  It is also used during simple enrollment, but as that feature
+is presently broken, once simpleenrollment works, it will also be
+unnecessary.</p>
+
+<h1 id="rake-fountains1_registrar_ca">rake fountain:s1_registrar_ca</h1>
+
+<p>This method should be run once (after h0) to generate a self-signed
+certificate to be the domain ownerâ€™s Certificate Authority.
+This certificate will be stored at db/cert.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fountain@fountain1:~/fountain/current$ rake fountain:s1_registrar_ca
+
+fountain@fountain1:~/fountain/current$ ls -l db/cert/.
+-rw-r--r-- 1 fountain fountain 916 Nov  5 03:30 ownerca_secp384r1.crt
+-rw-rw-r-- 1 fountain fountain 288 Nov  5 03:30 ownerca_secp384r1.key
+</code></pre></div></div>
+
+<p>Unlike highway, the variable $CERTDIR is presently ignored.</p>
+
+<h1 id="rake-fountains2_create_registrar">rake fountain:s2_create_registrar</h1>
+
+<p>This method should be run once (after h1) to generate a certificate
+(signed by the vendor CA certificate) which will be used to as the
+registrar certificate.  This will also be used as the TLS Server Certificate
+for the BRSKI process.
+The cmcRA extension will be set if the underlying openssl permits this
+extension. Sadly, such extensions require source code patches.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fountain@fountain1:~/fountain/current$ rake fountain:s2_create_registrar
+Can not setup cmcRA extension, as openssl not patched, continuing anyway...
+
+fountain@fountain1:~/fountain/current$ ls -l db/cert/.
+total 5
+-rw-r--r-- 1 fountain fountain 700 Nov  5 03:31 jrc_prime256v1.crt
+-rw-rw-r-- 1 fountain fountain 227 Nov  5 03:31 jrc_prime256v1.key
+-rw-r--r-- 1 fountain fountain 916 Nov  5 03:30 ownerca_secp384r1.crt
+-rw-rw-r-- 1 fountain fountain 288 Nov  5 03:30 ownerca_secp384r1.key
+</code></pre></div></div>
+
+<p>Unlike highway, the variable $CERTDIR is presently ignored.</p>
+
+<h2 id="running-fountain-join-registrarcoordinator-jrc">Running Fountain Join-Registrar/Coordinator (JRC)</h2>
+
+<p>To start the server, once it is configured:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lxc exec fountain -- su fountain
+
+bin/startj6rc -D &amp;
+bin/startjrc -D &amp;
+</code></pre></div></div>
+
+<p>The -D will put a few debug message in the foreground, but the bulk of the
+debug will be in a lot file.
+The startj6rc starts the CoAPS (constrained) responder.
+The startjrc starts the HTTPS (non-constrained) responder.  Note that the
+ruby binary has been marked as permitted to bind port 443 via the script
+at: /home/mcr/src/testing/fix-ruby-port443.  In order to make this work,
+some ruby and openssl library paths have been added to /etc/ld.so.conf.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tail -f fountain/shared/log/production.log &amp;
+</code></pre></div></div>
+
+<p>Will show the entire log file as it grows.</p>
+
+<p>A production load Registrar server would use the passenger plugin to Apache to
+scale better.  A high-capacity Registrar server would make use of a three-tier
+web framework (presentation-tier/load-balancer, application server-tier,
+and database-tier) to do typical web scaling.  Setting up such a system is
+not in the scope for this document, please contact Sandelman Software Works
+for help setting such an environment up.</p>
+
+<p>The /version URL does not currently work in Fountain, it will be added.</p>
+
+<p>The CoAPS and HTTPS code can run at the same time.</p>
+
+:ET
