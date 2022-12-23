@@ -7,4 +7,7 @@ subheadline: "ACP explained"
 permalink: /acp/
 ---
 
-This outlines the detailed process described in the [Autonomic Control Plane](https://tools.ietf.org/html/draft-ietf-anima-autonomic-control-plane-12) specification.
+This outlines the detailed process described in the [Autonomic Control Plane](https://www.rfc-editor.org/info/rfc8994) specification.
+
+More information can be found at https://rfc8994.org/
+
