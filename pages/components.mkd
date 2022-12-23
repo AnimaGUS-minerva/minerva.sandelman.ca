@@ -31,9 +31,9 @@ The Minerva ecosystem consists of a number of components:
 + [pick](/pick) is a component from the [unstrung](/unstrung) RPL daemon, which
   is intended as a production client daemon.
 
-+ [unstrung](/unstrung) is used as the RPL daemon within the [acp](ACP)
++ [unstrung](/unstrung) is used as the RPL daemon within the [ACP](acp)
 
-+ [openswanX](/openswanX) is used as the IPsec daemon, creating the [acp](ACP)
++ [openswanX](/openswanX) is used as the IPsec daemon, creating the [ACP](acp)
 
 The Minerva ecosystem does not as yet have a reference Proxy server.
 
