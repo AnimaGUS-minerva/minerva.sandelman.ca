@@ -20,72 +20,23 @@ A method for deployment via Heroku is being developed.
 
 ## Fountain Registrar as a VM
 
-There is an OVA container at [https://minerva.sandelman.ca/qcow/fountain-20210502.ova](https://minerva.sandelman.ca/qcow/).
-You probably want to use wget, not your browser to download this file.
+There is a list of OVA images at:
 
-It is 1.1G in size, and uses a thin-provisioned VMDK disk image, which can be as large as 8G, but is currently 3.4G in size (including swap).
-(It can be converted via qemu-img to QCOW format to be used with KVM or XEN)
 
-This image will boot up with the name "fountain", and with the username "fountain"
-Root logins are currently disabled, please contact mcr@sandelman.ca for the fountain password.
+Most images are around 1.1G in size, and uses a thin-provisioned VMDK disk image, which can be as large as 8G, but is currently 3.4G in size (including swap).
 
 The image should be run with a *bridged* network interface to your LAN.
-It will use mDNS (avahi) to announce the name "fountain.local", and the system can be tested for correct operation by doing:
+It will use mDNS (avahi) to announce the name "minerva-fountain.local", and the system can be tested for correct operation by doing:
 
-    curl -k https://fountain.local:8443/version.json
-
+    curl -k https://minerva-fountain.local:8443/version.json
 
 Once logged in, you will find that the application has been installed in /app/fountain.
 
-The logs are in /app/fountain/production.log
+The logs are in /app/logs/production.log
 
-The application is started in crontab using the @reboot method.
-
-There are certificates and private keys already generated, which are stored in /app/certificates.   This has been to make your life easier: they should be replaced in any non-testing installtion.
-
-In the home directory, /home/fountain, there is a script "fnt.sh" (a work in progress),
-which is used to customize an empty devuan base image.
-This image is supposed to apply security updates on it's own.
-
-The files /home/fountain/.ssh/authorized_keys contain keys that allow logins from Sandelman Software Works.  Remove these or comment them out if you don't want help.
+The file /root/.ssh/authorized_keys contain keys that allow logins from Sandelman Software Works for maintenance and diagnostics using ssh.
+Remove these or comment them out if you don't want help.
 Add your keys so that you can login with ssh.
-
-### Testing
-
-BRSKI client has been installed in this VM.
-It is located at /home/fountain/reach.
-
-To run the test, it is suggested to login in two windows.
-In the first window, run:
-
-    tail --follow=name -f /app/logs/production.log
-
-In the second window, do:
-
-    cd ~/reach/spec/files/product/00-D0-E5-02-00-39
-    ./voucher.sh
-
-The files in that directory are:
-
-* device.crt: the IDevID certificate
-* key.pem: the private key associated with the IDevID
-* honeydukes.txt: a placeholder to say that this came from honeydukes.sandelman.ca
-* masa.crt: the trust anchor associated with signing vouchers
-* vendor.crt: the trust anchor that signs IDevIDs
-
-These files can be used with real pledge code by installing them into the pledge.
-Normally, the private key would be transported securely from the MASA (or other PKI infrastructure which created it) into the device, or generated on the device itself.
-See https://datatracker.ietf.org/doc/draft-richardson-t2trg-idevid-considerations/ for many more considerations around this.
-
-In the above test, the pledge reaches out to the local JRC (Registrar), submits a voucher-request.  The JRC then reaches out to the MASA listed in the IDevID extension,
-and submits a (parboiled) voucher-request.
-
-A voucher is then returned from the MASA, logged, and then returned to the pledge.
-
-The pledge then does an RFC7030 EST enrollment.
-
-Some missing parts: the {{rfc8995}} section 5.7 telemetry operation is not yet completed, nor is the section 5.9.4 enrollment status telemetry.
-This Registrar does not examine the audit log from the MASA either.
 
 
 

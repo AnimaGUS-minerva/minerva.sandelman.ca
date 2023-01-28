@@ -1,0 +1,43 @@
+---
+layout: page
+#
+# Content
+#
+subheadline: "Running and upgrading to Fountain 2023-01"
+title: "Minerva Fountain beta-customer configuration"
+teaser: "Virtual Appliances"
+categories:
+  - appliances
+tags:
+  - fountain
+#
+# Styling
+#
+---
+
+A new version of the Fountain Registrar Virtual Appliance has been posted to
+    http://sns.cooperix.net/ova/minerva-fountain-20230126.ova
+
+(Yes, on http, not https for now.  The files are big enough that I'm still finding the best place to distribute them)
+
+These images do a number of things, and the will slowly get better.
+
+What this one does:
+
+1. boots image with mDNS "minerva-fountain"
+2. login as root/root on the console, and change the password.  No root login on ssh with passwords.  If you need help, then keep my key in the root account.
+3. IPv4 and IPv6.
+4. initializes the database, and then creates a root CA, and then a few EE certificates for use by the Registrar for it's TLS.  And a subordinate CA for signing LDevID certificates.
+5. It opens port 8443 to listen for BRSKI-EST connections.
+6. It opens port 5683 (CoAPS) for Constrained BRSKI DTLS/COAP connections.
+7. It includes a mechanism to do GRASP *AN\_join\_proxy* announcements as per RFC8994, although this is not enabled by default.
+8. It creates some certificates for use by the PostgresQL bucardo replication system.
+
+It is possible to use the bucardo setup to arrange to do a multi-master replication of the database.  This is not configured by default, but the intention is that this is used to do forklift upgrades of the image, while saving the data.
+
+There are many issues to be resolved, which the [VirtualMachines](/virtualmachines) records.
+
+This image can be used as part of scalable three-tier application framework.
+It includes the Passenger and Apache front end, and the Postgres database backend.
+
+After setting the root password, the Registrar is ready to operate as a promiscuous registrar.

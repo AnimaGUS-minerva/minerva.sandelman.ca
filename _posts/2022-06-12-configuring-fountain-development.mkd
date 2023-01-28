@@ -21,7 +21,7 @@ It includes support for both RFC8366 vouchers, and COSE/CBOR based constrained v
 It speaks both HTTPS and CoAPS (CoAP over DTLS).
 
 It is designed to be deployed into a three-tier application framework with a front-end like Passenger, and a Postgres database backend.
-It is available in the form of LXC, VMDK, and docker images, as well as as virtual appliance format.
+It is also available in the form of LXC, VMDK, and docker images, as well as as virtual appliance format. [VirtualMachines](/virtualmachines)
 
 Note that while the MASA is operated by the manufacturer of an IoT device or ACP router,
 the Registrar is operated by the owner of the network to which the device should onboard.
@@ -32,7 +32,7 @@ In such a configuration it runs as a single threaded foreground process answerin
 In many other systems, the HTTPS and certificate aspect of the system is not an essential part of the mechanism and R&D uses can often skip that.
 This is not the case for BRSKI: the security mechanisms are woven into the protocol and so getting them all setup correctly is essential for correct usage.
 
-Assuming that the code has been installed in `/someplace/highway` as described in
+Assuming that the code has been installed in `/someplace/fountain` as described in
 [Minerva Highway MASA and Fountain JRC local configuration use](/openssl/2022/06/09/building-local-minerva.html), then a test case situation is configured easily using the included `can-o-pg` present in the `etc` submodule.
 
 This also assumes that you have already configured highway on the same machine.
@@ -51,7 +51,8 @@ If you get an error
 WHERE IS POSTGRESQL/initdb --encoding=utf8 -D /someplace/highway/run/dbcluster
 ````
 
-then the scripts failed to find an installed version of postgresql 9,10,11,12,13,14.
+then the scripts failed to find an installed version of postgresql 10,11,12,13,14.
+Please install postgresql if it isn't installed, or fix etc/findpsql.sh.
 
 To complete the template installation, copy the generated database.yml:
 ````
