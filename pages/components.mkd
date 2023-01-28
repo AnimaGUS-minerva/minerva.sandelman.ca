@@ -7,7 +7,9 @@ subheadline: "How the minerva ecosystems implements the ANIMA concepts"
 permalink: /components/
 ---
 
-The Minerva ecosystem consists of a number of components:
+The Minerva ecosystem consists of a number of components, as shown in this diagram.
+
+<img src="/images/minerva-brski.svg" alt="compopnent diagram" />
 
 + [highway](/highway) is the Minerva IDevID creator/signer, and the Manufacturer
   Authorized Signing Authority (masa).  It is run by the manufacturer to
@@ -28,8 +30,7 @@ The Minerva ecosystem consists of a number of components:
   in-vitro. It is used exclusively as a testing client, and is *not* intended
   for any production use.
 
-+ [pick](/pick) is a component from the [unstrung](/unstrung) RPL daemon, which
-  is intended as a production client daemon.
++ [RustyBeach](/reach) is a pledge written in Rust, (no_std), designed to work with FreeRTOS and RIOT-OS.  It can also be compiled for Linux. (WIP)
 
 + [unstrung](/unstrung) is used as the RPL daemon within the [ACP](/acp)
 
