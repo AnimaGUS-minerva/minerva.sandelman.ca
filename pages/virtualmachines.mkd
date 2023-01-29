@@ -20,8 +20,17 @@ A method for deployment via Heroku is being developed.
 
 ## Fountain Registrar as a VM
 
-There is a list of OVA images at:
-
+Here is a list of posts about OVA images:
+<ul class="posts">
+{% for post in site.tags.appliances limit: 20 %}
+  <div class="post_info">
+    <li>
+         <a href="{{ post.url }}">{{ post.title }}</a>
+         <span>({{ post.date | date:"%Y-%m-%d" }})</span>
+    </li>
+    </div>
+  {% endfor %}
+</ul>
 
 Most images are around 1.1G in size, and uses a thin-provisioned VMDK disk image, which can be as large as 8G, but is currently 3.4G in size (including swap).
 
