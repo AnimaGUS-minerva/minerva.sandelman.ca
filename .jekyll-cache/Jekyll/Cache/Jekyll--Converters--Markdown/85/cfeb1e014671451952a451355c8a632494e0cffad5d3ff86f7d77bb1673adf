@@ -1,4 +1,0 @@
-I"ì<p>The Fountain Registration Authority (Registrar) is an RFC8995 compliant BRSKI-MASA server.
-It includes support for both RFC8366 vouchers, and COSE/CBOR based constrained vouchers.
-It speaks both HTTPS and CoAPS (CoAP over DTLS).</p>
-:ET
